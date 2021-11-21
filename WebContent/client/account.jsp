@@ -8,6 +8,7 @@
 <body>
 	<!-- 계좌 상세 조회  -->
 	<!-- ‘/client/accounts/{account_id}’식으로 url을 설정하고 싶은데 어떻게 해야하나요? -->
+	<h1><a href = "http://localhost:8090/DatabaseDesign/client/index.jsp">명지은행</a></h1>
 	<div>account page</div>
 </body>
 </html>

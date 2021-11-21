@@ -7,6 +7,7 @@
 </head>
 <body>
 	<!-- 카드 목록 -->
+	<h1><a href = "http://localhost:8090/DatabaseDesign/client/index.jsp">명지은행</a></h1>
 	<div>cards page</div>
 </body>
 </html>
