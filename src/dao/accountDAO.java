@@ -4,14 +4,14 @@ import java.sql.Connection;
 import java.sql.SQLException;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
-import util.DBConnection;
+import util.*;
 import dto.accountDTO;
 import dto.accountLogDTO;
 import java.util.ArrayList;
 
 public class accountDAO {
 	//계좌들조회
-	public ArrayList<accountDTO> selectAccounts(String user_id) throws SQLException
+	public ArrayList<accountDTO> selectAccounts(String user_id) throws SQLException, ClassNotFoundException
 	{
 		Connection con = DBConnection.getConnection();
 		PreparedStatement psmt;
@@ -39,7 +39,7 @@ public class accountDAO {
 		return result;
 	}
 	//입출금내역 조회
-	public ArrayList<accountLogDTO> selectAccountLogs(int account_id) throws SQLException
+	public ArrayList<accountLogDTO> selectAccountLogs(int account_id) throws SQLException, ClassNotFoundException
 	{
 		Connection con = DBConnection.getConnection();
 		PreparedStatement psmt;
@@ -66,7 +66,7 @@ public class accountDAO {
 		return result;
 	}
 	//특정계좌반환
-	public accountDTO selectAccount(int account_id) throws SQLException
+	public accountDTO selectAccount(int account_id) throws SQLException, ClassNotFoundException
 	{
 		Connection con = DBConnection.getConnection();
 		PreparedStatement psmt;
@@ -85,7 +85,7 @@ public class accountDAO {
 		return result;
 	}
 	//송금(가능,불가능여부 반환)
-	public int sendMoney(int sender_account_id, int receiver_account_id,int send_amount, int receive_amount, String info) throws SQLException
+	public int sendMoney(int sender_account_id, int receiver_account_id,int send_amount, int receive_amount, String info) throws SQLException, ClassNotFoundException
 	{
 		Connection con = DBConnection.getConnection();
 		PreparedStatement psmt;
@@ -115,7 +115,7 @@ public class accountDAO {
 		return 1;
 	}
 	//입금
-	public Boolean deposit(int account_id, int amount) throws SQLException
+	public Boolean deposit(int account_id, int amount) throws SQLException, ClassNotFoundException
 	{
 		Connection con = DBConnection.getConnection();
 		PreparedStatement psmt;
@@ -129,7 +129,7 @@ public class accountDAO {
 		return result;
 	}
 	//출금 (가능,불가능여부반환)
-	public int withdraw(int account_id, int amount) throws SQLException
+	public int withdraw(int account_id, int amount) throws SQLException, ClassNotFoundException
 	{
 		Connection con = DBConnection.getConnection();
 		PreparedStatement psmt;
@@ -150,6 +150,6 @@ public class accountDAO {
 		psmt.setInt(2, account_id);
 		psmt.execute();
 		return 1;
-}
+	}
 	
 }

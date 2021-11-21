@@ -8,15 +8,16 @@ public class DBConnection {
 	protected static Connection con = null;
 	private DBConnection()
 	{}
-	public static Connection getConnection() throws SQLException
+	public static Connection getConnection() throws SQLException, ClassNotFoundException
 	{
 		if(con==null)
 		{
+				Class.forName("com.mysql.cj.jdbc.Driver");
 				String jdbcUrl = "jdbc:mysql://db.ctbroze.com:3310/dbd";
 				String userId = "dbd2021";
 				String userPass = "dbd2021";
 				con = DriverManager.getConnection(jdbcUrl, userId, userPass);
-				System.out.println("db연결됨");
+				System.out.println("dbconnected");
 		}
 		return con;
 	}

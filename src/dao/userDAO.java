@@ -9,8 +9,16 @@ import util.DBConnection;
 import dto.*;
 public class userDAO 
 {
-	
-	public boolean insert(String user_id, String name, String address, String birth, String email, String phone,String job, boolean is_client, String password) throws SQLException
+	private Connection con=null;
+	public userDAO()
+	{
+		try {
+			this.con = DBConnection.getConnection();
+		} catch (SQLException | ClassNotFoundException e) {
+			e.printStackTrace();
+		}
+	}
+	public boolean insert(String user_id, String name, String address, String birth, String email, String phone,String job, boolean is_client, String password) throws SQLException, ClassNotFoundException
 	{
 		Connection con = DBConnection.getConnection();
 		PreparedStatement psmt;
@@ -29,18 +37,17 @@ public class userDAO
 		psmt.close();
 		return result;
 	}
-	public userDTO select(String email, String password) throws SQLException
+	public userDTO select(String user_id) throws SQLException
 	{
-		Connection con = DBConnection.getConnection();
 		PreparedStatement psmt;
 		ResultSet rs;
 		userDTO result;
-		String sql = "select * from user where email = ? AND password = ?";
+		String sql = "select * from user where user_id = ?;";
 		psmt = con.prepareStatement(sql);
-		psmt.setString(1, email);
-		psmt.setString(2, password);
+		psmt.setString(1, user_id);
 		psmt.execute();
-		if((rs = psmt.getResultSet())==null)
+		rs = psmt.getResultSet();
+		if(!rs.next())
 			return null;
 		result = new userDTO(
 				rs.getString("user_id"),rs.getString("name"),rs.getString("address"),
@@ -50,7 +57,7 @@ public class userDAO
 			
 	}
 	//개인정보 관리
-	public boolean update(String name, String address, String birth, String email, String phone,String job) throws SQLException
+	public boolean update(String name, String address, String birth, String email, String phone,String job) throws SQLException, ClassNotFoundException
 	{
 		Connection con = DBConnection.getConnection();
 		PreparedStatement psmt;
@@ -67,7 +74,7 @@ public class userDAO
 		psmt.close();
 		return result;
 	}
-	public boolean delete(String user_id) throws SQLException
+	public boolean delete(String user_id) throws SQLException, ClassNotFoundException
 	{
 		Connection con = DBConnection.getConnection();
 		PreparedStatement psmt;
