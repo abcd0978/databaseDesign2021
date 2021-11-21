@@ -9,7 +9,7 @@
 	<title>Bank System</title>
 </head>
 <body>
-	<%
+<%
 	Connection conn = null;
 	PreparedStatement pstmt = null;
 	ResultSet rs = null;
@@ -37,7 +37,7 @@
 		<div class="container">
 			<h1>명지은행</h1>
 			<div class="row">
-				<h2 class="col">개인정보관리</h2>
+				<h2 class="col">계좌 생성</h2>
 			</div>
 			<form method="put" action="manageUser.jsp">
 				<input type="hidden" name="user_id" value="<%=rs.getString("user_id")%>">

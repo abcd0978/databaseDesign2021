@@ -8,6 +8,7 @@
 	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
 	<title>Bank System</title>
 </head>
+
 <body>	
 <%
 	Connection conn = null;
@@ -63,12 +64,26 @@
 	}
 %>
 			<div>
-				<button type="button" class="btn btn-primary">계좌 생성</button>
+				<button type="button" class="btn btn-primary" onClick="location.href='/DatabaseDesign/emp/createAccountForm.jsp'">계좌 생성</button>
 				<button type="button" class="btn btn-primary">계좌 관리</button>
-				<button type="button" class="btn btn-primary">카드 생성</button>
-				<button type="button" class="btn btn-primary">카드 관리</button>
+				<button type="button" class="btn btn-primary" onClick="location.href='/DatabaseDesign/emp/createCardForm.jsp'">카드 생성</button>
+				<button type="button" class="btn btn-primary" onClick="manageCard()">카드 관리</button>
 				<button type="button" class="btn btn-primary" onClick="location.href='/DatabaseDesign/emp/manageUserForm.jsp'">개인정보관리</button>
 			</div>
 		</div>
 </body>
+<script>
+	function manageCard() {
+		let account_id = ""
+		
+		while(account_id === ""){
+			account_id = window.prompt("카드 ID 입력하세요")
+		}
+		
+		if(account_id != null) {
+			let url = "/DatabaseDesign/emp/manageCardForm.jsp?card_id="+account_id
+			location.href= url
+		}
+	}
+</script>	
 </html>

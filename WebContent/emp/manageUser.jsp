@@ -12,7 +12,6 @@
 <%
 	Connection conn = null;
 	PreparedStatement pstmt = null;
-	ResultSet rs = null;
 	request.setCharacterEncoding("utf-8");
 	
 	String user_id = request.getParameter("user_id");
@@ -54,7 +53,7 @@
 		</div>
 		<div class="row">
 			<h2 class="col"></h2>
-			<h2 class="col">수정 완료</h2>
+			<h2 class="col" style="text-align:center">수정 완료</h2>
 			<h2 class="col"></h2>
 		</div>
 <%		
