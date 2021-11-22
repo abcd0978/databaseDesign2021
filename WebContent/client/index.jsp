@@ -1,27 +1,31 @@
-<%@page import="dto.userDTO"%>
+<%@page import="javax.swing.text.Document"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"%>
 <%@ page import="dao.*" %>
 <%@ page import="dto.*" %>
 <%@ page import="util.*" %>
 <%
 	request.setCharacterEncoding("UTF-8");
-	String user_id = request.getParameter("user_id");
-	Cookie[] cks = request.getCookies();
-	String uid="";
-	if(cks!=null)
-	{
-		for(int i=0;i<cks.length;i++)
-		{
-			if(cks[i].getName().equals("user_id"))
-			{
-				uid = cks[i].getValue();
-			}
-		}
-	}
-	out.print(uid);
+	session.setAttribute("userID", "901122-2222222");//디버그용
+	String uid = (String)session.getAttribute("userID");
 	userDAO useracc = new userDAO();
 	userDTO user = useracc.select(uid);
-	out.print(user);
+	String info_name="";
+	String info_add="";
+	String info_birth="";
+	String info_email="";
+	String info_num="";
+	String info_job="";
+	if(uid==null)
+		response.sendRedirect("http://localhost:8090/DatabaseDesign/login.jsp");
+	else
+	{
+		info_name = user.getName();
+		info_add = user.getAddress();
+		info_birth = user.getBirth();
+		info_email = user.getEmail();
+		info_num = user.getPhone();
+		info_job = user.getJob();
+	}
 %>
 <!DOCTYPE html>
 <html>
@@ -36,22 +40,22 @@
 	</h1>
 	<div id="infos">
 		<h3 id="info_name">
-		이름
+		이름: <%=info_name %>
 		</h3>
 		<h3 id="info_add">
-		주소
+		주소: <%=info_add %>
 		</h3>
 		<h3 id="info_birth">
-		생일
+		생일: <%=info_birth %>
 		</h3>
 		<h3 id="info_email">
-		이메일
+		이메일: <%=info_email %>
 		</h3>
 		<h3 id="info_num">
-		전화번호
+		전화번호: <%=info_num %>
 		</h3>
 		<h3 id="info_job">
-		직업
+		직업: <%=info_job %>
 		</h3>
 	</div>
 	<div id="buttons">
