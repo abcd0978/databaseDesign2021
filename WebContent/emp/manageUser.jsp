@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"%>
 <%@ page import="java.sql.*"%>
+<%@ page import="util.DBConnection"%>
 
 <!DOCTYPE html>
 <html>
@@ -10,9 +11,9 @@
 </head>
 <body>
 <%
-	Connection conn = null;
+	Connection conn = DBConnection.getConnection();
 	PreparedStatement pstmt = null;
-	request.setCharacterEncoding("utf-8");
+	ResultSet rs = null;
 	
 	String user_id = request.getParameter("user_id");
 	String name = request.getParameter("name");
@@ -20,49 +21,30 @@
 	String birth = request.getParameter("birth");
 	String email = request.getParameter("email");
 	String phone = request.getParameter("phone");
+		
+	// id 임시
+	String updateQuery = "update user set name = ?, address = ?, birth = ?, email = ?, phone = ? where user_id = ?";
 	
-	try {
-		Class.forName("com.mysql.cj.jdbc.Driver");
-	}catch(ClassNotFoundException cnfe) {
-		cnfe.printStackTrace();
-		System.out.println("=!= 드라이버 로딩 실패 =!=");
-	}
-	try {
-		String jdbcUrl = "jdbc:mysql://db.ctbroze.com:3310/dbd";
-		String userId = "dbd2021";
-		String userPass = "dbd2021";
-		conn = DriverManager.getConnection(jdbcUrl, userId, userPass);
-		
-		// id 임시
-		String sql = "update user set name = ?, address = ?, birth = ?, email = ?, phone = ? where user_id = ?";
-		
-		pstmt = conn.prepareStatement(sql);
-		pstmt.setString(1, name);
-		pstmt.setString(2, address);
-		pstmt.setString(3, birth);
-		pstmt.setString(4, email);
-		pstmt.setString(5, phone);
-		pstmt.setString(6, user_id);
-		pstmt.executeUpdate();
-		
+	pstmt = conn.prepareStatement(updateQuery);
+	pstmt.setString(1, name);
+	pstmt.setString(2, address);
+	pstmt.setString(3, birth);
+	pstmt.setString(4, email);
+	pstmt.setString(5, phone);
+	pstmt.setString(6, user_id);
+	pstmt.executeUpdate();		
 %>
 	<div class="container">
 		<h1>명지은행</h1>
 		<div class="row">
-			<h2 class="col">개인정보관리</h2>
+			<h2 class="col">개인정보관리(직원)</h2>
 		</div>
 		<div class="row">
 			<h2 class="col"></h2>
 			<h2 class="col" style="text-align:center">수정 완료</h2>
 			<h2 class="col"></h2>
 		</div>
-<%		
-	}catch(SQLException e){
-		e.printStackTrace();
-		System.out.println(e);
-	}
-%>
-		<div>
+		<div style="text-align:center">
 			<button type="button" class="btn btn-primary"  onClick="location.href='/DatabaseDesign/emp/'">메인페이지</button>
 		</div>
 	</div>

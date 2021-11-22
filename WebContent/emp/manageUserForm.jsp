@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"%>
 <%@ page import="java.sql.*"%>
+<%@ page import="util.DBConnection"%>
 
 <!DOCTYPE html>
 <html>
@@ -10,78 +11,59 @@
 </head>
 <body>
 <%
-	Connection conn = null;
+	Connection conn = DBConnection.getConnection();
 	PreparedStatement pstmt = null;
-	ResultSet rs = null;
+	ResultSet rs = null;	
+		
+	// id 임시
+	String selectQuery = "select * from user where user_id='901111-1111111'";
 	
-	try {
-		Class.forName("com.mysql.cj.jdbc.Driver");
-	}catch(ClassNotFoundException cnfe) {
-		cnfe.printStackTrace();
-		System.out.println("=!= 드라이버 로딩 실패 =!=");
-	}
-	try {
-		String jdbcUrl = "jdbc:mysql://db.ctbroze.com:3310/dbd";
-		String userId = "dbd2021";
-		String userPass = "dbd2021";
-		conn = DriverManager.getConnection(jdbcUrl, userId, userPass);
-		
-		// id 임시
-		String sql = "select * from user where user_id='901111-1111111'";
-		
-		pstmt = conn.prepareStatement(sql);
-		rs = pstmt.executeQuery();
-		
-		rs.next();
+	pstmt = conn.prepareStatement(selectQuery);
+	rs = pstmt.executeQuery();
+	rs.next();
 %>
-		<div class="container">
-			<h1>명지은행</h1>
-			<div class="row">
-				<h2 class="col">계좌 생성</h2>
-			</div>
-			<form method="put" action="manageUser.jsp">
-				<input type="hidden" name="user_id" value="<%=rs.getString("user_id")%>">
-				<div class="row">
-					<h3 class="col-2">이름</h3>
-					<div class="col">
-						<input name="name" value="<%=rs.getString("name")%>">
-					</div>
-				</div>
-				<div class="row">
-					<h3 class="col-2">주소</h3>
-					<div class="col">
-						<input type="text" name="address" value="<%=rs.getString("address")%>" size="50"/>
-					</div>
-				</div>
-				<div class="row">
-					<h3 class="col-2">생일</h3>
-					<div class="col">
-						<input type="date" name="birth" value="<%=rs.getString("birth")%>"/>
-					</div>
-				</div>
-				<div class="row">
-					<h3 class="col-2">이메일</h3>
-					<div class="col">
-						<input type="email" name="email" value="<%=rs.getString("email")%>" required/>
-					</div>
-				</div>
-				<div class="row">
-					<h3 class="col-2">전화번호</h3>
-					<div class="col">
-						<input name="phone" value="<%=rs.getString("phone")%>"/>
-					</div>
-				</div>
-<%		
-	}catch(SQLException e){
-		e.printStackTrace();
-		System.out.println(e);
-	}
-%>
-				<div>
-					<button type="button" class="btn btn-primary"  onClick="location.href='/DatabaseDesign/emp/'">메인페이지</button>
-					<input type="submit" class="btn btn-primary" value="수정">
-				</div>
-			</form>
+	<div class="container">
+		<h1>명지은행</h1>
+		<div class="row">
+			<h2 class="col">개인정보관리(직원)</h2>
 		</div>
+		<form method="put" action="manageUser.jsp">
+			<input type="hidden" name="user_id" value="<%=rs.getString("user_id")%>">
+			<div class="row">
+				<h3 class="col-2">이름</h3>
+				<div class="col">
+					<input name="name" value="<%=rs.getString("name")%>">
+				</div>
+			</div>
+			<div class="row">
+				<h3 class="col-2">주소</h3>
+				<div class="col">
+					<input type="text" name="address" value="<%=rs.getString("address")%>" size="50"/>
+				</div>
+			</div>
+			<div class="row">
+				<h3 class="col-2">생일</h3>
+				<div class="col">
+					<input type="date" name="birth" value="<%=rs.getString("birth")%>"/>
+				</div>
+			</div>
+			<div class="row">
+				<h3 class="col-2">이메일</h3>
+				<div class="col">
+					<input type="email" name="email" value="<%=rs.getString("email")%>" required/>
+				</div>
+			</div>
+			<div class="row">
+				<h3 class="col-2">전화번호</h3>
+				<div class="col">
+					<input name="phone" value="<%=rs.getString("phone")%>"/>
+				</div>
+			</div>
+			<div>
+				<button type="button" class="btn btn-primary"  onClick="location.href='/DatabaseDesign/emp/'">메인페이지</button>
+				<input type="submit" class="btn btn-primary" value="수정">
+			</div>
+		</form>
+	</div>
 </body>
 </html>

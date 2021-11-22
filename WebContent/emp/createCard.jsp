@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"%>
 <%@ page import="java.sql.*"%>
 <%@ page import="java.time.*"%>
+<%@ page import="util.DBConnection"%>
 
 <!DOCTYPE html>
 <html>
@@ -16,7 +17,7 @@
 			<h2 class="col">카드 생성</h2>
 		</div>
 <%
-	Connection conn = null;
+	Connection conn = DBConnection.getConnection();
 	PreparedStatement pstmt = null;
 	ResultSet rs = null;
 	request.setCharacterEncoding("utf-8");
@@ -24,30 +25,20 @@
 	int account_id = Integer.parseInt(request.getParameter("account_id"));
 	int usage_limit = Integer.parseInt(request.getParameter("usage_limit"));
 	String type = request.getParameter("type");
+	Timestamp issue_date = new Timestamp(System.currentTimeMillis());
 
-	try {
-		Class.forName("com.mysql.cj.jdbc.Driver");
-	}catch(ClassNotFoundException cnfe) {
-		cnfe.printStackTrace();
-		System.out.println("=!= 드라이버 로딩 실패 =!=");
+	// 존재하는 계좌인지 확인
+	String validQuery = "select count(*) from account where account_id=?";
+	pstmt = conn.prepareStatement(validQuery);
+	pstmt.setInt(1, account_id);
+	rs = pstmt.executeQuery();
+
+	boolean isExist = true;
+	if(rs.next()) { 
+		isExist = rs.getInt(1) == 0 ? false : true;   
 	}
-	try {
-		String jdbcUrl = "jdbc:mysql://db.ctbroze.com:3310/dbd";
-		String userId = "dbd2021";
-		String userPass = "dbd2021";
-		conn = DriverManager.getConnection(jdbcUrl, userId, userPass);
-		
-		// 존재하는 계좌인지 확인
-		String validSql = "select count(*) from account where account_id='"+account_id+"'";
-		pstmt = conn.prepareStatement(validSql);
-		rs = pstmt.executeQuery();
-
-		boolean isExist = true;
-		if(rs.next()) { 
-			isExist = rs.getInt(1) == 0 ? false : true;   
-		}
-		
-		if(!isExist) {
+	
+	if(!isExist) {
 %>
 		<div class="row">
 			<h2 class="col"></h2>
@@ -73,25 +64,23 @@
 		</div>
 <%
 		}else{
-			Timestamp issue_date = new Timestamp(System.currentTimeMillis());
-			
-			String insertSql = "insert into card(issue_date, usage_limit, type, account_id) values(?, ?, ?, ?)";
-			pstmt = conn.prepareStatement(insertSql);
+			String insertQuery = "insert into card(issue_date, usage_limit, type, account_id) values(?, ?, ?, ?)";
+			pstmt = conn.prepareStatement(insertQuery);
 			pstmt.setTimestamp(1, issue_date);
 			pstmt.setInt(2, usage_limit);
 			pstmt.setString(3, type);
 			pstmt.setInt(4, account_id);
 			pstmt.executeUpdate();
 			
-			String updateSql = "update account set is_request = ? where account_id=?";
-			pstmt = conn.prepareStatement(updateSql);
+			String updateQuery = "update account set is_request = ? where account_id=?";
+			pstmt = conn.prepareStatement(updateQuery);
 			pstmt.setBoolean(1, true);
 			pstmt.setInt(2, account_id);
 			pstmt.executeUpdate();
 %>
 		<div class="row">
 			<h2 class="col"></h2>
-			<h2 class="col" style="text-align:center">계좌를 생성하였습니다.</h2>
+			<h2 class="col" style="text-align:center">카드를 생성하였습니다.</h2>
 			<h2 class="col"></h2>
 		</div>
 		<div class="row">
@@ -108,13 +97,7 @@
 		</div>
 <%		
 		}
-%>				
-<%		
-	}catch(SQLException e){
-		e.printStackTrace();
-		System.out.println(e);
-	}
-%>					
+%>								
 	</div>
 </body>
 </html>

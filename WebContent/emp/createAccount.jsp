@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"%>
 <%@ page import="java.sql.*"%>
 <%@ page import="java.time.*"%>
+<%@ page import="util.DBConnection"%>
 
 <!DOCTYPE html>
 <html>
@@ -16,37 +17,25 @@
 			<h2 class="col">계좌 생성</h2>
 		</div>
 <%
-	Connection conn = null;
+	Connection conn = DBConnection.getConnection();
 	PreparedStatement pstmt = null;
 	ResultSet rs = null;
-	request.setCharacterEncoding("utf-8");
 	
 	String user_id = request.getParameter("user_id");
 	int type = Integer.parseInt(request.getParameter("type"));
+	
+	// 사용자가 있는지 확인
+	String validQuery = "select count(*) from user where user_id=?";
+	pstmt = conn.prepareStatement(validQuery);
+	pstmt.setString(1, user_id);
+	rs = pstmt.executeQuery();
 
-	try {
-		Class.forName("com.mysql.cj.jdbc.Driver");
-	}catch(ClassNotFoundException cnfe) {
-		cnfe.printStackTrace();
-		System.out.println("=!= 드라이버 로딩 실패 =!=");
+	boolean isExist = true;
+	if(rs.next()) { 
+		isExist = rs.getInt(1) == 0 ? false : true;   
 	}
-	try {
-		String jdbcUrl = "jdbc:mysql://db.ctbroze.com:3310/dbd";
-		String userId = "dbd2021";
-		String userPass = "dbd2021";
-		conn = DriverManager.getConnection(jdbcUrl, userId, userPass);
-		
-		// 사용자가 있는지 확인
-		String validSql = "select count(*) from user where user_id='"+user_id+"'";
-		pstmt = conn.prepareStatement(validSql);
-		rs = pstmt.executeQuery();
-
-		boolean isExist = true;
-		if(rs.next()) { 
-			isExist = rs.getInt(1) == 0 ? false : true;   
-		}
-		
-		if(!isExist) {
+	
+	if(!isExist) {
 %>
 		<div class="row">
 			<h2 class="col"></h2>
@@ -71,19 +60,19 @@
 			<h2 class="col"></h2>
 		</div>
 <%
-		}else{
-			int balance = 0;
-			boolean is_request = false;
-			Timestamp open_date = new Timestamp(System.currentTimeMillis());
-			
-			String insertSql = "insert into account(type, balance, is_request, open_date, user_id) values(?, ?, ?, ?, ?)";
-			pstmt = conn.prepareStatement(insertSql);
-			pstmt.setInt(1, type);
-			pstmt.setInt(2, balance);
-			pstmt.setBoolean(3, is_request);
-			pstmt.setTimestamp(4, open_date);
-			pstmt.setString(5, user_id);
-			pstmt.executeUpdate();
+	}else{
+		int balance = 0;
+		boolean is_request = false;
+		Timestamp open_date = new Timestamp(System.currentTimeMillis());
+		
+		String insertQuery = "insert into account(type, balance, is_request, open_date, user_id) values(?, ?, ?, ?, ?)";
+		pstmt = conn.prepareStatement(insertQuery);
+		pstmt.setInt(1, type);
+		pstmt.setInt(2, balance);
+		pstmt.setBoolean(3, is_request);
+		pstmt.setTimestamp(4, open_date);
+		pstmt.setString(5, user_id);
+		pstmt.executeUpdate();
 %>
 		<div class="row">
 			<h2 class="col"></h2>
@@ -103,14 +92,8 @@
 			<h2 class="col"></h2>
 		</div>
 <%		
-		}
-%>				
-<%		
-	}catch(SQLException e){
-		e.printStackTrace();
-		System.out.println(e);
 	}
-%>		
+%>				
 	</div>
 </body>
 </html>
