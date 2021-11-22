@@ -16,7 +16,7 @@ public class cardDAO
 		Connection con = DBConnection.getConnection();
 		PreparedStatement psmt;
 		ResultSet rs;
-		String sql = "select balance,limit from card,account where card_id = ?;";
+		String sql = "select balance,usage_limit from card,account where card_id = ?;";
 		psmt = con.prepareStatement(sql);
 		psmt.setInt(1,card_id);
 		psmt.execute();

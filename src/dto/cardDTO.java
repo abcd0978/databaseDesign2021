@@ -6,7 +6,7 @@ public class cardDTO {
 	//발급일자
 	private String issue_date;
 	//한도
-	private int limit;
+	private int usage_limit;
 	//카드종류
 	private String type;
 	//예금계좌
@@ -15,10 +15,10 @@ public class cardDTO {
 	
 	//default generator
 	public cardDTO() {}
-	public cardDTO(int card_id, String issue_date, int limit, String type, int account_id) {
+	public cardDTO(int card_id, String issue_date, int usage_limit, String type, int account_id) {
 		this.card_id = card_id;
 		this.issue_date = issue_date;
-		this.limit = limit;
+		this.usage_limit = usage_limit;
 		this.type = type;
 		this.account_id = account_id;
 	}
@@ -36,10 +36,10 @@ public class cardDTO {
 		this.issue_date = issue_date;
 	}
 	public int getLimit() {
-		return limit;
+		return usage_limit;
 	}
 	public void setLimit(int limit) {
-		this.limit = limit;
+		this.usage_limit = limit;
 	}
 	public String getType() {
 		return type;
@@ -55,7 +55,7 @@ public class cardDTO {
 	}
 	//toString
 	public String toString() {
-		return "cardDTO [card_id=" + card_id + ", issue_date=" + issue_date + ", limit=" + limit + ", type=" + type
+		return "cardDTO [card_id=" + card_id + ", issue_date=" + issue_date + ", limit=" + usage_limit + ", type=" + type
 				+ ", account_id=" + account_id + "]";
 	}
 	

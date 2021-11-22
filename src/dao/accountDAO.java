@@ -76,6 +76,8 @@ public class accountDAO {
 		psmt.setInt(1,account_id);
 		psmt.execute();
 		rs = psmt.getResultSet();
+		if(!rs.next())
+			return null;
 		accountDTO result;
 		result = new accountDTO(rs.getInt("account_id"), 
 				rs.getInt("type"), rs.getInt("balance"), 
