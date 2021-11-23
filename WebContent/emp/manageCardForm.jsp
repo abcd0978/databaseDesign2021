@@ -56,7 +56,7 @@
 				<input type="hidden" name="manage_type" value="put">
 				<input type="hidden" name="card_id" value="<%=card_id%>">
 				<div class="row">
-					<h3 class="col-2">계좌 번호</h3>
+					<h3 class="col-2">연결된 계좌 번호</h3>
 					<div class="col">
 						<input type="number" name="account_id" value="<%=rs.getString("account_id") %>" required>
 					</div>
