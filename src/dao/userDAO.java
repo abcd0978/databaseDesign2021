@@ -96,14 +96,14 @@ public class userDAO
 		Connection con = DBConnection.getConnection();
 		PreparedStatement psmt;
 		ResultSet rs;
-		String sql = "select is_client from account where user_id = ? ;";
+		String sql = "select * from user where user_id = ? ;";
 		psmt = con.prepareStatement(sql);
 		psmt.setString(1, uid);
 		psmt.execute();
 		rs = psmt.getResultSet();
 		if(!rs.next())
 			return -1;
-		int result = rs.getInt("is_client");
-		return result;		
+		boolean result = rs.getBoolean("is_client");
+		return result == true ? 1 : 0;
 	}
 }
