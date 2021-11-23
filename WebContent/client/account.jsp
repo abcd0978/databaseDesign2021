@@ -14,7 +14,7 @@
 	accountDAO adao = new accountDAO();
 	accountDTO account=null;
 	ArrayList<accountLogDTO> accountLogs=null;
-	if(udao.select(uid)==null)
+	if(udao.checkValid(uid)<1)
 		response.sendRedirect("http://localhost:8090/DatabaseDesign/login.jsp");
 	else
 	{
@@ -26,13 +26,14 @@
 <html>
 <head>
 	<meta charset="UTF-8">
+	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
 	<title>Bank System</title>
 </head>
 <body>
 	<!-- 계좌 상세 조회  -->
 	<h1><a href = "http://localhost:8090/DatabaseDesign/client/index.jsp">명지은행</a></h1>
 	<div>계좌 상세조회</div>
-	<table id='acc' border='1'>
+	<table class="table table-hover">
 		<th>계좌번호</th>
 		<th>잔고</th>
 		<th>개설일자</th>
@@ -66,7 +67,7 @@
 		%>
 	</table>
 	<br>
-	<table id='acclog' border='1'>
+	<table class="table table-hover">
 		<th>금액</th>
 		<th>날짜</th>
 		<th>info</th>

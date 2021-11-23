@@ -14,7 +14,7 @@
 	ArrayList<accountDTO> accounts = adao.selectAccounts(uid);
 	userDTO user = udao.select(uid);
 	String name="";
-	if(user==null)
+	if(udao.checkValid(uid)<1)
 		response.sendRedirect("http://localhost:8090/DatabaseDesign/login.jsp");
 	else
 		name = user.getName();
@@ -30,7 +30,7 @@
 	<!-- 계좌 리스트 -->
 	<h1><a href = "http://localhost:8090/DatabaseDesign/client/index.jsp">명지은행</a></h1>
 	<div id = "who"><%=name%>님의 계좌 리스트</div>
-	<table id=accList border='1'>
+	<table class="table table-hover">
 		<th>상세보기</th>
 		<th>계좌번호</th>
 		<th>잔고</th>
@@ -38,10 +38,10 @@
 		for(int i=0;i<accounts.size();i++)
 		{
 			accountDTO temp = accounts.get(i);
-			out.print("<tr style=\"border:1px solid black;\">");
-			out.print("<td style=\"border:1px solid black;\"> <button id=\"goaccount\" type=\"button\" class=\"btn btn-primary\" onclick=\"location.href=\'http://localhost:8090/DatabaseDesign/client/account.jsp?id="+temp.getAccount_id()+"\'\">보기</button> </td>");
-			out.print("<td style=\"border:1px solid black;\">"+temp.getAccount_id()+"</td>");
-			out.print("<td style=\"border:1px solid black;\">"+temp.getBalance()+"</td>");
+			out.print("<tr>");
+			out.print("<td> <button id=\"goaccount\" type=\"button\" class=\"btn btn-primary\" onclick=\"location.href=\'http://localhost:8090/DatabaseDesign/client/account.jsp?id="+temp.getAccount_id()+"\'\">보기</button> </td>");
+			out.print("<td>"+temp.getAccount_id()+"</td>");
+			out.print("<td>"+temp.getBalance()+"</td>");
 			out.print("</tr>");
 		}
 		%>

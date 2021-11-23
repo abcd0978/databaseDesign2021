@@ -5,20 +5,22 @@
 <%@ page import="util.*" %>
 <%
 	request.setCharacterEncoding("UTF-8");
+	//session.invalidate();
 	session.setAttribute("userID", "901122-2222222");//디버그용
 	String uid = (String)session.getAttribute("userID");
-	userDAO useracc = new userDAO();
-	userDTO user = useracc.select(uid);
+	userDAO udao = new userDAO();
+	userDTO user =null; udao.select(uid);
 	String info_name="";
 	String info_add="";
 	String info_birth="";
 	String info_email="";
 	String info_num="";
 	String info_job="";
-	if(uid==null)
+	if(udao.checkValid(uid)<1)
 		response.sendRedirect("http://localhost:8090/DatabaseDesign/login.jsp");
 	else
 	{
+		user = udao.select(uid);
 		info_name = user.getName();
 		info_add = user.getAddress();
 		info_birth = user.getBirth();
