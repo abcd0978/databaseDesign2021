@@ -32,14 +32,21 @@
 	rs = pstmt.executeQuery();
 	rs.next();
 	
+	// 기존에 연결된 계좌 번호
+	int origin_account_id = -1;
 	boolean isExist = true;
-	if(rs.getInt(1) == 0) isExist = false;   
+	
+	if(rs.getInt(1) == 0) {
+		isExist = false;   
+	}else{
+		origin_account_id = rs.getInt(2);
+	}
 
 	if(!isExist) {
 %>	
 		<div class="row">
 			<h2 class="col"></h2>
-			<h2 class="col" style="text-align:center">존재하지 않는 카드입니다.</h2>
+			<h2 class="col" style="text-align:center">잚못된 카드 입니다.</h2>
 			<h2 class="col"></h2>
 		</div>
 		<div class="row">
@@ -56,18 +63,22 @@
 		</div>
 <%
 	}else if(manage_type.equals("delete")) {
-		int account_id = rs.getInt(2);
-		
 		// 카드 delete;
 		String deleteQuery = "delete from card where card_id = ?";
 		pstmt = conn.prepareStatement(deleteQuery);
 		pstmt.setInt(1,Integer.parseInt(card_id));
 		pstmt.executeUpdate();
 		
+		// card_log delete
+		String deleteLogQuery = "delete from card_log where card_id = ?";
+		pstmt = conn.prepareStatement(deleteLogQuery);
+		pstmt.setInt(1, Integer.parseInt(card_id));
+		pstmt.executeUpdate();
+		
 		// 계좌에 연결된 카드가 없으면 account의 is_request = false
 		String checkQuery = "select count(*) from card where account_id=?";
 		pstmt = conn.prepareStatement(checkQuery);
-		pstmt.setInt(1, account_id);
+		pstmt.setInt(1, origin_account_id);
 		rs = pstmt.executeQuery();
 		rs.next();
 		
@@ -76,7 +87,7 @@
 			String updateQuery = "update account set is_request = ? where account_id = ?";
 			pstmt = conn.prepareStatement(updateQuery);
 			pstmt.setBoolean(1, false);
-			pstmt.setInt(2, account_id);
+			pstmt.setInt(2, origin_account_id);
 			pstmt.executeUpdate();
 		}
 %>
@@ -99,21 +110,22 @@
 		</div>
 <%
 	}else{
-		int account_id = Integer.parseInt(request.getParameter("account_id"));
+		// 변경된 account_id
+		int changed_account_id = Integer.parseInt(request.getParameter("account_id"));
 		int usage_limit = Integer.parseInt(request.getParameter("usage_limit"));
 		
 		// 입력된 account_id가 존재하는지 확인
-		String checkQuery = "select count(*) from account where account_id=?";
+		String checkQuery = "select count(*), type from account where account_id=?";
 		pstmt = conn.prepareStatement(checkQuery);
-		pstmt.setInt(1, account_id);
+		pstmt.setInt(1, changed_account_id);
 		rs = pstmt.executeQuery();
 		rs.next();
 		
-		if(rs.getInt(1) == 0) {
+		if(rs.getInt(1) == 0 || rs.getInt(2) == 1) {
 %>
 		<div class="row">
 			<h2 class="col"></h2>
-			<h2 class="col" style="text-align:center">존재하지 않는 계좌입니다.</h2>
+			<h2 class="col" style="text-align:center">잘못된 계좌입니다.</h2>
 			<h2 class="col"></h2>
 		</div>
 		<div class="row">
@@ -133,14 +145,38 @@
 			// 계좌 정보 업데이트
 			String updateQuery = "update card set account_id = ?, usage_limit = ? where card_id = ?";
 			pstmt = conn.prepareStatement(updateQuery);
-			pstmt.setInt(1, account_id);
+			pstmt.setInt(1, changed_account_id);
 			pstmt.setInt(2, usage_limit);
 			pstmt.setInt(3, Integer.parseInt(card_id));
+			pstmt.executeUpdate();
+			
+			// account => is_request 변경
+			// origin(origin_account_id) : 계좌에 연결된 카드 count == 0 ? false : true
+			String cntQuery = "select count(*) from card where account_id=?";
+			pstmt = conn.prepareStatement(cntQuery);
+			pstmt.setInt(1, origin_account_id);
+			rs = pstmt.executeQuery();
+			rs.next();
+			
+			String updateOriginQuery = "update account set is_request = ? where account_id = ?";
+			pstmt = conn.prepareStatement(updateOriginQuery);
+			if(rs.getInt(1) == 0) {
+				pstmt.setBoolean(1, false);
+			}else{
+				pstmt.setBoolean(1, true);
+			}
+			pstmt.setInt(2, origin_account_id);
+			pstmt.executeUpdate();
+			
+			// target(changed_account_id): true
+			String updateChangedQuery = "update account set is_request = true where account_id = ?";
+			pstmt = conn.prepareStatement(updateChangedQuery);
+			pstmt.setInt(1, changed_account_id);
 			pstmt.executeUpdate();
 %>
 		<div class="row">
 			<h2 class="col"></h2>
-			<h2 class="col" style="text-align:center">계좌 정보가 수정되었습니다.</h2>
+			<h2 class="col" style="text-align:center">카드 정보가 수정되었습니다.</h2>
 			<h2 class="col"></h2>
 		</div>
 		<div class="row">

@@ -27,18 +27,19 @@
 	String type = request.getParameter("type");
 	Timestamp issue_date = new Timestamp(System.currentTimeMillis());
 
-	// 존재하는 계좌인지 확인
-	String validQuery = "select count(*) from account where account_id=?";
+	// 유효한 계좌인지 확인(존재하는지 OR 예금 계좌인지)
+	String validQuery = "select count(*), type from account where account_id=?";
 	pstmt = conn.prepareStatement(validQuery);
 	pstmt.setInt(1, account_id);
 	rs = pstmt.executeQuery();
-
-	boolean isExist = true;
-	if(rs.next()) { 
-		isExist = rs.getInt(1) == 0 ? false : true;   
+	rs.next();
+	
+	boolean validAccountId = true;
+	if(rs.getInt(1) == 0 || rs.getInt(2) == 1) { 
+		validAccountId = false;   
 	}
 	
-	if(!isExist) {
+	if(!validAccountId) {
 %>
 		<div class="row">
 			<h2 class="col"></h2>

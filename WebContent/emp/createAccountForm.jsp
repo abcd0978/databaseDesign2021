@@ -21,7 +21,7 @@
 				</div>
 			</div>
 			<div class="row">
-				<!-- 1.예금 2.적금  -->
+				<!-- 0.예금 1.적금  -->
 				<h3 class="col-2">계좌 종류</h3>
 				<div class="col">
 					<select name ="type" style="width:100px">
