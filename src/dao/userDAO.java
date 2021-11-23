@@ -91,4 +91,19 @@ public class userDAO
 		boolean result = psmt.execute();
 		return result;		
 	}
+	public int checkValid(String uid) throws SQLException, ClassNotFoundException//-1은 null 1은 client, 0은 emp
+	{
+		Connection con = DBConnection.getConnection();
+		PreparedStatement psmt;
+		ResultSet rs;
+		String sql = "select is_client from account where user_id = ? ;";
+		psmt = con.prepareStatement(sql);
+		psmt.setString(1, uid);
+		psmt.execute();
+		rs = psmt.getResultSet();
+		if(!rs.next())
+			return -1;
+		int result = rs.getInt("is_client");
+		return result;		
+	}
 }
