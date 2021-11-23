@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"%>
 <%@ page import="java.sql.*"%>
+<%@ page import="util.DBConnection"%>
 
 <!DOCTYPE html>
 <html>
@@ -15,32 +16,21 @@
 			<h2 class="col">카드 관리</h2>
 		</div>
 <%
-	Connection conn = null;
+	Connection conn = DBConnection.getConnection();
 	PreparedStatement pstmt = null;
 	ResultSet rs = null;
 	
 	String card_id = request.getParameter("card_id");
 	
-	try {
-		Class.forName("com.mysql.cj.jdbc.Driver");
-	}catch(ClassNotFoundException cnfe) {
-		cnfe.printStackTrace();
-		System.out.println("=!= 드라이버 로딩 실패 =!=");
-	}
-	try {
-		String jdbcUrl = "jdbc:mysql://db.ctbroze.com:3310/dbd";
-		String userId = "dbd2021";
-		String userPass = "dbd2021";
-		conn = DriverManager.getConnection(jdbcUrl, userId, userPass);
-		
-		String validSql = "select count(*), usage_limit, account_id from card where card_id='"+card_id+"'";
-		pstmt = conn.prepareStatement(validSql);
-		rs = pstmt.executeQuery();
-		
-		boolean isExist = true;
-		if(rs.next()) isExist = rs.getInt(1) == 0 ? false : true;   
-		
-		if(!isExist) {
+	String validSql = "select count(*), usage_limit, account_id from card where card_id=?";
+	pstmt = conn.prepareStatement(validSql);
+	pstmt.setString(1, card_id);
+	rs = pstmt.executeQuery();
+	
+	boolean isExist = true;
+	if(rs.next()) isExist = rs.getInt(1) == 0 ? false : true;   
+	
+	if(!isExist) {
 %>
 		<div class="row">
 			<h2 class="col"></h2>
@@ -89,12 +79,7 @@
 			</form>
 <%		
 		}
-	}catch(SQLException e){
-		e.printStackTrace();
-		System.out.println(e);
-	}
 %>
-	
 	</div>
 </body>
 </html>

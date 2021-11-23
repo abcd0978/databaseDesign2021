@@ -1,5 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"%>
 <%@ page import="java.sql.*"%>
+<%@ page import="util.DBConnection"%>
+
 
 <!DOCTYPE html>
 <html>
@@ -11,66 +13,47 @@
 
 <body>	
 <%
-	Connection conn = null;
+	Connection conn = DBConnection.getConnection();
 	PreparedStatement pstmt = null;
 	ResultSet rs = null;
 	
-	try {
-		Class.forName("com.mysql.cj.jdbc.Driver");
-	}catch(ClassNotFoundException cnfe) {
-		cnfe.printStackTrace();
-		System.out.println("=!= 드라이버 로딩 실패 =!=");
-	}
-	try {
-		String jdbcUrl = "jdbc:mysql://db.ctbroze.com:3310/dbd";
-		String userId = "dbd2021";
-		String userPass = "dbd2021";
-		conn = DriverManager.getConnection(jdbcUrl, userId, userPass);
-		
-		// id 임시
-		String sql = "select * from user where user_id='901111-1111111'";
-		
-		pstmt = conn.prepareStatement(sql);
-		rs = pstmt.executeQuery();
-		
-		rs.next();
+	// id 임시
+	String selectQuery = "select * from user where user_id='901111-1111111'";
+	pstmt = conn.prepareStatement(selectQuery);
+	rs = pstmt.executeQuery();
+	
+	rs.next();
 %>
-		<div class="container">
-			<h1>명지은행</h1>
-			<div class="row">
-				<h3 class="col-2">이름</h3>
-				<h4 class="col"><%=rs.getString("name")%> 직원</h4>
-			</div>
-			<div class="row">
-				<h3 class="col-2">주소</h3>
-				<h4 class="col"><%=rs.getString("address")%></h4>
-			</div>
-			<div class="row">
-				<h3 class="col-2">생일</h3>
-				<h4 class="col"><%=rs.getString("birth")%></h4>
-			</div>
-			<div class="row">
-				<h3 class="col-2">이메일</h3>
-				<h4 class="col"><%=rs.getString("email")%></h4>
-			</div>
-			<div class="row">
-				<h3 class="col-2">전화번호</h3>
-				<h4 class="col"><%=rs.getString("phone")%></h4>
-			</div>
-<%		
-	}catch(SQLException e){
-		e.printStackTrace();
-		System.out.println(e);
-	}
-%>
-			<div>
-				<button type="button" class="btn btn-primary" onClick="location.href='/DatabaseDesign/emp/createAccountForm.jsp'">계좌 생성</button>
-				<button type="button" class="btn btn-primary">계좌 관리</button>
-				<button type="button" class="btn btn-primary" onClick="location.href='/DatabaseDesign/emp/createCardForm.jsp'">카드 생성</button>
-				<button type="button" class="btn btn-primary" onClick="manageCard()">카드 관리</button>
-				<button type="button" class="btn btn-primary" onClick="location.href='/DatabaseDesign/emp/manageUserForm.jsp'">개인정보관리</button>
-			</div>
+	<div class="container">
+		<h1>명지은행</h1>
+		<div class="row">
+			<h3 class="col-2">이름</h3>
+			<h4 class="col"><%=rs.getString("name")%> 직원</h4>
 		</div>
+		<div class="row">
+			<h3 class="col-2">주소</h3>
+			<h4 class="col"><%=rs.getString("address")%></h4>
+		</div>
+		<div class="row">
+			<h3 class="col-2">생일</h3>
+			<h4 class="col"><%=rs.getString("birth")%></h4>
+		</div>
+		<div class="row">
+			<h3 class="col-2">이메일</h3>
+			<h4 class="col"><%=rs.getString("email")%></h4>
+		</div>
+		<div class="row">
+			<h3 class="col-2">전화번호</h3>
+			<h4 class="col"><%=rs.getString("phone")%></h4>
+		</div>
+		<div>
+			<button type="button" class="btn btn-primary" onClick="location.href='/DatabaseDesign/emp/createAccountForm.jsp'">계좌 생성</button>
+			<button type="button" class="btn btn-primary">계좌 관리</button>
+			<button type="button" class="btn btn-primary" onClick="location.href='/DatabaseDesign/emp/createCardForm.jsp'">카드 생성</button>
+			<button type="button" class="btn btn-primary" onClick="manageCard()">카드 관리</button>
+			<button type="button" class="btn btn-primary" onClick="location.href='/DatabaseDesign/emp/manageUserForm.jsp'">개인정보관리</button>
+		</div>
+	</div>
 </body>
 <script>
 	function manageCard() {
