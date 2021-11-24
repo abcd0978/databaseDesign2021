@@ -82,7 +82,49 @@
 		</div>
 <%
 		// 연결된 카드들
+		String cntCardQuery = "select count(*) from card where account_id=?";
+		pstmt = conn.prepareStatement(cntCardQuery);
+		pstmt.setString(1, account_id);
+		rs = pstmt.executeQuery();
+		rs.next();
+		
+		if(rs.getInt(1) > 0) {
 %>		
+		<div class="row">
+			<h3 class="col-2">연결된 카드</h3>
+		</div>
+<%
+			String selectCardQuery = "select card_id, issue_date, usage_limit, type from card where account_id=?";
+			pstmt = conn.prepareStatement(selectCardQuery);
+			pstmt.setString(1, account_id);
+			rs = pstmt.executeQuery();
+			
+			while(rs.next()) {
+				int card_id = rs.getInt("card_id");
+				String issue_date = rs.getString("issue_date");
+				int usage_limit = rs.getInt("usage_limit");
+				String card_type = rs.getString("type").equals("check")? "체크" : "신용";
+%>
+			<div class="card">
+				<div class="card-body container">
+					<div class="row">
+						<h5 class="col-2">카드 번호</h5>
+						<h6 class="col"><%=card_id%></h6>
+						<h5 class="col-2">발급일</h5>
+						<h6 class="col"><%=issue_date%></h6>
+					</div>
+					<div class="row">
+						<h5 class="col-2">한도</h5>
+						<h6 class="col"><%=usage_limit%> 원</h6>
+						<h5 class="col-2">유형</h5>
+						<h6 class="col"><%=card_type%></h6>
+					</div>
+				</div>
+			</div>
+<%
+			}
+		}
+%>
 		<form method="delete" action="manageAccount.jsp">
 			<input type="hidden" name="manage_type" value="delete">
 			<input type="hidden" name="account_id" value="<%=account_id%>">

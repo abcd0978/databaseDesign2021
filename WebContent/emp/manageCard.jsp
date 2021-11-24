@@ -63,16 +63,16 @@
 		</div>
 <%
 	}else if(manage_type.equals("delete")) {
-		// 카드 delete;
-		String deleteQuery = "delete from card where card_id = ?";
-		pstmt = conn.prepareStatement(deleteQuery);
-		pstmt.setInt(1,Integer.parseInt(card_id));
-		pstmt.executeUpdate();
-		
 		// card_log delete
 		String deleteLogQuery = "delete from card_log where card_id = ?";
 		pstmt = conn.prepareStatement(deleteLogQuery);
 		pstmt.setInt(1, Integer.parseInt(card_id));
+		pstmt.executeUpdate();
+		
+		// 카드 delete;
+		String deleteQuery = "delete from card where card_id = ?";
+		pstmt = conn.prepareStatement(deleteQuery);
+		pstmt.setInt(1,Integer.parseInt(card_id));
 		pstmt.executeUpdate();
 		
 		// 계좌에 연결된 카드가 없으면 account의 is_request = false
