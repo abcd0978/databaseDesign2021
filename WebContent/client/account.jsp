@@ -68,14 +68,20 @@
 	</table>
 	<br>
 	<table class="table table-hover">
+		<th>유형</th>
 		<th>금액</th>
 		<th>날짜</th>
 		<th>info</th>
 		<%
 			for(int i=0;i<accountLogs.size();i++)
 			{
-				out.print("<tr>");
 				accountLogDTO temp = accountLogs.get(i);
+				out.print("<tr>");
+				if(!temp.isType())//출금시
+					out.print("<td style=\"color:red\">출금</td>");
+				else
+					out.print("<td style=\"color:blue\">입금</td>");
+				
 				if(!temp.isType())//출금시
 				{
 					out.print("<td style=\"color:red\">"+temp.getAmount()+"</td>");
