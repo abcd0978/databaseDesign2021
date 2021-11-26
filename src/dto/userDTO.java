@@ -1,5 +1,7 @@
 package dto;
 
+import java.sql.Date;
+
 public class userDTO 
 {
 	//주민번호
@@ -9,7 +11,7 @@ public class userDTO
 	//주소
 	private String address;
 	//생일
-	private String birth;
+	private Date birth;
 	//이매일
 	private String email;
 	//전화번호
@@ -24,7 +26,7 @@ public class userDTO
 
 	//default generator
 	public userDTO() {}
-	public userDTO(String user_id, String name, String address, String birth, String email, String phone,
+	public userDTO(String user_id, String name, String address, Date birth, String email, String phone,
 			String job, boolean is_client,String password) {
 		super();
 		this.user_id = user_id;
@@ -37,7 +39,6 @@ public class userDTO
 		this.is_client = is_client;
 		this.password = password;
 	}
-
 	//getters, setters
 	public String getUser_id() {
 		return user_id;
@@ -63,10 +64,10 @@ public class userDTO
 	public void setAddress(String address) {
 		this.address = address;
 	}
-	public String getBirth() {
+	public Date getBirth() {
 		return birth;
 	}
-	public void setBirth(String birth) {
+	public void setBirth(Date birth) {
 		this.birth = birth;
 	}
 	public String getEmail() {
@@ -87,7 +88,7 @@ public class userDTO
 	public void setPassword(String password) {
 		this.password = password;
 	}
-	public boolean isIs_client() {
+	public boolean getIs_client() {
 		return is_client;
 	}
 	public void setIs_client(boolean is_client) {

@@ -1,11 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"%>
 <!DOCTYPE html>
 <html>
-<head>
-	<meta charset="UTF-8">
-	<title>Bank System</title>
-</head>
-<body>
-	<div>Bank System</div>
+<jsp:include page="/template/header.jsp"/>
+<a href="/client/index.jsp">고객</a>
+<a href="/emp/index.jsp">직원</a>
 </body>
 </html>
