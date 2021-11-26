@@ -32,15 +32,15 @@ public class UserUpdate extends HttpServlet{
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException{
 		String reqURL = request.getRequestURL().toString();
 		userDTO dto = new userDTO();
-		dto.setUser_id(request.getAttribute("userID").toString());
-		dto.setAddress(request.getAttribute("address").toString());
-		dto.setName(request.getAttribute("name").toString());
-		dto.setBirth(convertDate(request.getAttribute("birth").toString()));
-		dto.setEmail(request.getAttribute("email").toString());
-		dto.setPhone(request.getAttribute("phone").toString());
-		dto.setJob(request.getAttribute("job").toString());
-		dto.setIs_client(convertIsClient(request.getAttribute("isClient").toString()));
-		dto.setPassword(request.getAttribute("password").toString());
+		dto.setUser_id(request.getSession().getAttribute("userID").toString());
+		dto.setAddress(request.getParameter("address"));
+		dto.setName(request.getParameter("name"));
+		dto.setBirth(convertDate(request.getParameter("birth").toString()));
+		dto.setEmail(request.getParameter("email"));
+		dto.setPhone(request.getParameter("phone"));
+		dto.setJob(request.getParameter("job"));
+		dto.setIs_client(convertIsClient(request.getParameter("is_client").toString()));
+		dto.setPassword(request.getParameter("password"));
 		boolean result = service.updateUser(dto);
 		//성공시
 		if(result) {

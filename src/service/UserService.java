@@ -29,4 +29,9 @@ public class UserService {
 		// TODO Auto-generated method stub
 		return false;
 	}
+
+	public void deleteUser(String string) {
+		// TODO Auto-generated method stub
+		
+	}
 }

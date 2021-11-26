@@ -64,7 +64,7 @@ public class userDAO
 	{
 		Connection con = DBConnection.getConnection();
 		PreparedStatement psmt;
-		String sql = "INSERT INTO table_name (user_id, name, address, birth, email, phone, job, is_client, password) VALUES ( ? , ? , ? , ? , ? , ? , ? , ? , ? );";
+		String sql = "INSERT INTO user (user_id, name, address, birth, email, phone, job, is_client, password) VALUES ( ? , ? , ? , ? , ? , ? , ? , ? , ? );";
 		psmt = con.prepareStatement(sql);
 		psmt.setString(1,dto.getUser_id());
 		psmt.setString(2,dto.getName());
