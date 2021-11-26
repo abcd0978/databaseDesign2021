@@ -24,14 +24,33 @@ public class UserService {
 		}
 		return false;
 	}
+	public boolean isClientCheck(String userID) {
+		try {
+			return dao.checkClient(userID);
+		} catch (ClassNotFoundException | SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return true;
+	}
 
 	public boolean updateUser(userDTO dto) {
-		// TODO Auto-generated method stub
+		try {
+			return dao.update(dto);
+		} catch (ClassNotFoundException | SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		return false;
 	}
 
-	public void deleteUser(String string) {
-		// TODO Auto-generated method stub
-		
+	public boolean deleteUser(String user_id) {
+		try {
+			return dao.delete(user_id);
+		} catch (ClassNotFoundException | SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return false;
 	}
 }

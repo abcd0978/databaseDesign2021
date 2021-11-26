@@ -46,7 +46,7 @@ public class UserJoin extends HttpServlet{
 		if(result) {
 			response.sendRedirect("/index.jsp");
 		} else { //실패시
-			response.sendRedirect(reqURL);
+			response.sendRedirect("/join.jsp");
 		}
 	}
 	
