@@ -15,7 +15,7 @@
 	accountDTO account=null;
 	ArrayList<accountLogDTO> accountLogs=null;
 	if(udao.checkValid(uid)<1)
-		response.sendRedirect("http://localhost:8090/DatabaseDesign/login.jsp");
+		response.sendRedirect("/DatabaseDesign/login.jsp");
 	else
 	{
 		account = adao.selectAccount(acId);
@@ -31,7 +31,7 @@
 </head>
 <body>
 	<!-- 계좌 상세 조회  -->
-	<h1><a href = "http://localhost:8090/DatabaseDesign/client/index.jsp">명지은행</a></h1>
+	<h1><a href = "/DatabaseDesign/client/index.jsp">명지은행</a></h1>
 	<div>계좌 상세조회</div>
 	<table class="table table-hover">
 		<th>계좌번호</th>

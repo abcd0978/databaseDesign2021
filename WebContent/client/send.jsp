@@ -16,7 +16,7 @@
 	ArrayList<accountDTO> accounts=null;
 	
 	if(udao.checkValid(uid)<1)
-		response.sendRedirect("http://localhost:8090/DatabaseDesign/login.jsp");
+		response.sendRedirect("/DatabaseDesign/login.jsp");
 	else
 	{
 		accounts = adao.selectAccounts(uid);
@@ -31,7 +31,7 @@
 	<title>Bank System</title>
 </head>
 <body>
-	<h1><a href = "http://localhost:8090/DatabaseDesign/client/index.jsp">명지은행</a></h1>
+	<h1><a href = "/DatabaseDesign/client/index.jsp">명지은행</a></h1>
 	<div>송금</div>
 	<form method="post" action="/DatabaseDesign/send">
 	<%

@@ -1,4 +1,29 @@
+<%@page import="java.net.http.HttpClient.Redirect"%>
+<%@page import="java.util.ArrayList"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"%>
+<%@ page import="dao.*" %>
+<%@ page import="dto.*" %>
+<%@ page import="util.*" %>
+<%
+	request.setCharacterEncoding("UTF-8");
+	//session.setAttribute("userID", "901122-2222222");//디버그용
+	//session.invalidate();
+	String uid = (String)session.getAttribute("userID");
+	String id = request.getParameter("card_id");
+	userDAO udao = new userDAO();
+	cardDAO cdao = new cardDAO();
+	ArrayList<cardDTO> cards = null;
+	userDTO user=null;
+	int card_id=0;
+	if(udao.checkValid(uid)<1)
+		response.sendRedirect("/DatabaseDesign/login.jsp");
+	else
+	{
+		user = udao.select(uid);
+		cards = cdao.selectCards(uid);
+	}
+		
+%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -8,10 +33,17 @@
 </head>
 <body>
 	<!-- 카드 상세 조회 -->
-	<h1><a href = "http://localhost:8090/DatabaseDesign/client/index.jsp">명지은행</a></h1>
+	<h1><a href = "/DatabaseDesign/client/index.jsp">명지은행</a></h1>
 	<div>카드 사용</div>
 	<form method="post" action="/DatabaseDesign/usecard">
-		카드번호: <input type="text" name="card_id">
+		<%
+		out.print("카드선택");
+	out.print(" <select name=\"card_id\"> ");
+		out.print("<option value=\"\">카드번호</option>");
+	for(int i=0;i<cards.size();i++)
+		out.print("<option value=\""  +cards.get(i).getCard_id()+"\">"+cards.get(i).getCard_id()+"</option>");
+	out.print("</select>");
+	%>
 		금액: <input type="text" name="amount">
 		info: <input type="text" name="info">
 		<button type="submit">제출</button>
