@@ -1,4 +1,5 @@
 <%@page import="javax.swing.text.Document"%>
+<%@page import="java.util.Date" %>
 <%@ page language="java" contentType="text/html; charset=UTF-8"%>
 <%@ page import="dao.*"%>
 <%@ page import="dto.*"%>
@@ -13,7 +14,7 @@
 	udao.select(uid);
 	String info_name = "";
 	String info_add = "";
-	String info_birth = "";
+	Date info_birth = null;
 	String info_email = "";
 	String info_num = "";
 	String info_job = "";
@@ -53,7 +54,7 @@
 		</h3>
 		<h3 id="info_birth">
 			생일:
-			<%=info_birth%>
+			<%=info_birth.toString()%>
 		</h3>
 		<h3 id="info_email">
 			이메일:

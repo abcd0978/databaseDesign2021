@@ -44,7 +44,7 @@ public class userDAO
 	{
 		Connection con = DBConnection.getConnection();
 		PreparedStatement psmt;
-		String sql = "INSERT INTO table_name (user_id, name, address, birth, email, phone, job, is_client, password) VALUES ( ? , ? , ? , ? , ? , ? , ? , ? , ? );";
+		String sql = "INSERT INTO user (user_id, name, address, birth, email, phone, job, is_client, password) VALUES ( ? , ? , ? , ? , ? , ? , ? , ? , ? );";
 		psmt = con.prepareStatement(sql);
 		psmt.setString(1,user_id);
 		psmt.setString(2,name);
@@ -75,9 +75,8 @@ public class userDAO
 		psmt.setString(7,dto.getJob());
 		psmt.setBoolean(8, dto.getIs_client());
 		psmt.setString(9, dto.getPassword());
-		boolean result = psmt.execute();
 		psmt.close();
-		return result;
+		return true;
 	}
 	
 	public userDTO select(String user_id) throws SQLException
@@ -105,24 +104,16 @@ public class userDAO
 		Connection con = DBConnection.getConnection();
 		PreparedStatement psmt;
 		ResultSet rs;
-		try {
-			String sql = "update user set name = ? , address = ? , birth = ? , email = ? , phone = ? , job = ? where user_id = ?;";
-			psmt = con.prepareStatement(sql);
-			psmt.setString(1,name);
-			psmt.setString(2,address);
-			psmt.setString(3,birth);
-			psmt.setString(4,email);
-			psmt.setString(5,phone);
-			psmt.setString(6,job);
-			psmt.setString(7,user_id);
-			psmt.execute();
-			psmt.close();
-		}
-		catch(SQLException e)
-		{
-			e.printStackTrace();
-			return false;
-		}
+		String sql = "update user set name = ? , address = ? , birth = ? , email = ? , phone = ? , job = ?;";
+		psmt = con.prepareStatement(sql);
+		psmt.setString(1,name);
+		psmt.setString(2,address);
+		psmt.setString(3,birth);
+		psmt.setString(4,email);
+		psmt.setString(5,phone);
+		psmt.setString(6,job);
+		psmt.execute();
+		psmt.close();
 		return true;
 	}
 	public boolean update(userDTO dto) throws SQLException, ClassNotFoundException
@@ -139,9 +130,10 @@ public class userDAO
 		psmt.setString(5,dto.getPhone());
 		psmt.setString(6,dto.getJob());
 		psmt.setString(7, dto.getUser_id());
-		boolean result = psmt.execute();
+    psmt.execute();
 		psmt.close();
-		return result;
+		//여기에 도달했다면 성공했다는것(실패의 경우 throw를 통해 나가게됨)
+		return true;
 	}
 	public boolean delete(String user_id) throws SQLException, ClassNotFoundException
 	{
@@ -157,7 +149,9 @@ public class userDAO
 		String sql2 = "delete from user where user_id = ? ;";
 		psmt = con.prepareStatement(sql2);
 		psmt.setString(1, user_id);
+		//여기에 도달했다면 성공했다는것(실패의 경우 throw를 통해 나가게됨)
 		psmt.execute();
+    psmt.close();
 		return true;		
 	}
 	public int checkValid(String uid) throws SQLException, ClassNotFoundException//-1은 null 1은 client, 0은 emp
@@ -200,5 +194,15 @@ public class userDAO
 			e.printStackTrace();
 		}
 		return null;
+	}
+	public boolean checkClient(String userID) throws SQLException, ClassNotFoundException{
+		Connection connection = DBConnection.getConnection();
+		PreparedStatement psmts = connection.prepareStatement("SELECT is_client FROM user WHERE user_id = ?");
+		psmts.setString(1, userID);
+		ResultSet rs = psmts.executeQuery();
+		if(rs.next()) {
+			return rs.getBoolean("is_client");
+		}
+		return false;
 	}
 }
