@@ -168,6 +168,21 @@ public class userDAO
 		return result == true ? 1 : 0;
 	}
 	
+	public static boolean checkEmpValid(String uid) throws SQLException, ClassNotFoundException {
+		Connection con = DBConnection.getConnection();
+		PreparedStatement psmt;
+		ResultSet rs;
+		String sql = "select * from user where user_id = ? ;";
+		psmt = con.prepareStatement(sql);
+		psmt.setString(1, uid);
+		psmt.execute();
+		rs = psmt.getResultSet();
+		if(!rs.next())
+			return false;
+		
+		return !rs.getBoolean("is_client");
+	}
+	
 	private java.sql.Date convertDate(String d) {
 		SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
 		try {

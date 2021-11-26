@@ -1,13 +1,21 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"%>
+<%@ page import="dao.*"%>
 
 <!DOCTYPE html>
 <html>
-<head>
-	<meta charset="UTF-8">
-	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
-	<title>Bank System</title>
-</head>
+<jsp:include page="/template/header.jsp"/>
 <body>
+<%
+	//임시 session 설정
+	session.setAttribute("userID","901111-1111111");
+	
+	// session check
+	String user_id = (String) session.getAttribute("userID");
+	if(userDAO.checkEmpValid(user_id) == false) {
+		response.sendRedirect("http://localhost:8080/DatabaseDesign/login.jsp");
+		return;
+	}
+%>	
 	<div class="container">
 		<h1>명지은행</h1>
 		<div class="row">
