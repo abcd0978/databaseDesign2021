@@ -15,7 +15,7 @@
 	userDTO user = udao.select(uid);
 	String name = "";
 	if (udao.checkValid(uid) < 1)
-		response.sendRedirect("http://localhost:8090/DatabaseDesign/login.jsp");
+		response.sendRedirect("/DatabaseDesign/login.jsp");
 	else
 		name = user.getName();
 %>
@@ -33,7 +33,7 @@
 <body>
 	<!-- 계좌 리스트 -->
 	<h1>
-		<a href="http://localhost:8090/DatabaseDesign/client/index.jsp">명지은행</a>
+		<a href="/DatabaseDesign/client/index.jsp">명지은행</a>
 	</h1>
 	<div id="who"><%=name%>님의 계좌 리스트
 	</div>

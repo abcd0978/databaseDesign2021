@@ -1,15 +1,23 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"%>
 <%@ page import="java.sql.*"%>
 <%@ page import="util.DBConnection"%>
+<%@ page import="dao.*"%>
 
 <!DOCTYPE html>
 <html>
-<head>
-	<meta charset="UTF-8">
-	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
-	<title>Bank System</title>
-</head>
+<jsp:include page="/template/header.jsp"/>
 <body>
+<%
+	//임시 session 설정
+	session.setAttribute("userID","901111-1111111");
+	
+	// session check
+	String user_id = (String) session.getAttribute("userID");
+	if(userDAO.checkEmpValid(user_id) == false) {
+		response.sendRedirect("http://localhost:8080/DatabaseDesign/login.jsp");
+		return;
+	}
+%>	
 	<div class="container">
 		<h1>명지은행</h1>
 		<div class="row">
@@ -51,6 +59,9 @@
 		</div>	
 <%
 		}else{
+			int account_id = rs.getInt("account_id");
+			int usage_limit = rs.getInt("usage_limit");
+			
 %>
 			<form method="put" action="manageCard.jsp">
 				<input type="hidden" name="manage_type" value="put">
@@ -58,14 +69,14 @@
 				<div class="row">
 					<h3 class="col-2">연결된 계좌 번호</h3>
 					<div class="col">
-						<input type="number" name="account_id" value="<%=rs.getString("account_id") %>" required>
+						<input type="number" name="account_id" value="<%=account_id%>" required>
 					</div>
 				</div>
 				<div class="row">
 					<h3 class="col-2">한도</h3>
 					<div class="col">
 						<div class="col">
-						<input type="number" min="100000" name="usage_limit" value="<%=rs.getString("usage_limit")%>" required>
+						<input type="number" min="100000" name="usage_limit" value="<%=usage_limit%>" required>
 					</div>
 					</div>
 				</div>

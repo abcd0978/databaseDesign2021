@@ -4,11 +4,7 @@
 
 <!DOCTYPE html>
 <html>
-<head>
-	<meta charset="UTF-8">
-	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
-	<title>Bank System</title>
-</head>
+<jsp:include page="/template/header.jsp"/>
 <body>
 <%
 	Connection conn = DBConnection.getConnection();
@@ -21,8 +17,7 @@
 	String birth = request.getParameter("birth");
 	String email = request.getParameter("email");
 	String phone = request.getParameter("phone");
-		
-	// id 임시
+	
 	String updateQuery = "update user set name = ?, address = ?, birth = ?, email = ?, phone = ? where user_id = ?";
 	
 	pstmt = conn.prepareStatement(updateQuery);
@@ -44,8 +39,17 @@
 			<h2 class="col" style="text-align:center">수정 완료</h2>
 			<h2 class="col"></h2>
 		</div>
-		<div style="text-align:center">
-			<button type="button" class="btn btn-primary"  onClick="location.href='/DatabaseDesign/emp/'">메인페이지</button>
+		<div class="row">
+			<h2 class="col"></h2>
+			<button 
+				type="button" 
+				class="col btn btn-primary" 
+				onClick="location.href='/DatabaseDesign/emp/'"
+				style="text-align:center"
+			>
+				메인페이지
+			</button>
+			<h2 class="col"></h2>
 		</div>
 	</div>
 </body>

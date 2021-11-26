@@ -18,7 +18,7 @@
 	int card_id=0;
 	String name="";
 	if(udao.checkValid(uid)<1)
-		response.sendRedirect("http://localhost:8090/DatabaseDesign/login.jsp");
+		response.sendRedirect("/DatabaseDesign/login.jsp");
 	else
 	{
 		card_id = Integer.parseInt(id);
@@ -37,7 +37,7 @@
 	<title>Bank System</title>
 </head>
 <body>
-<h1><a href = "http://localhost:8090/DatabaseDesign/client/index.jsp">명지은행</a></h1>
+<h1><a href = "/DatabaseDesign/client/index.jsp">명지은행</a></h1>
 	<div>카드상세: </div>
 	<table class="table table-hover">
 		<th>카드번호</th>

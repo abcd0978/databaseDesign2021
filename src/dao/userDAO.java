@@ -99,7 +99,7 @@ public class userDAO
 			
 	}
 	//개인정보 관리
-	public boolean update(String name, String address, String birth, String email, String phone,String job) throws SQLException, ClassNotFoundException
+	public boolean update(String name, String address, String birth, String email, String phone,String job,String user_id) throws SQLException, ClassNotFoundException
 	{
 		Connection con = DBConnection.getConnection();
 		PreparedStatement psmt;
@@ -112,8 +112,8 @@ public class userDAO
 		psmt.setString(4,email);
 		psmt.setString(5,phone);
 		psmt.setString(6,job);
+		psmt.execute();
 		psmt.close();
-		//여기에 도달했다면 성공했다는것(실패의 경우 throw를 통해 나가게됨)
 		return true;
 	}
 	public boolean update(userDTO dto) throws SQLException, ClassNotFoundException
@@ -130,6 +130,7 @@ public class userDAO
 		psmt.setString(5,dto.getPhone());
 		psmt.setString(6,dto.getJob());
 		psmt.setString(7, dto.getUser_id());
+    psmt.execute();
 		psmt.close();
 		//여기에 도달했다면 성공했다는것(실패의 경우 throw를 통해 나가게됨)
 		return true;
@@ -143,12 +144,14 @@ public class userDAO
 		psmt = con.prepareStatement(sql);
 		psmt.setString(1, user_id);
 		psmt.execute();
-		if(psmt.getResultSet()!=null)
+		if(psmt.getResultSet()==null)
 			return false;
 		String sql2 = "delete from user where user_id = ? ;";
 		psmt = con.prepareStatement(sql2);
 		psmt.setString(1, user_id);
 		//여기에 도달했다면 성공했다는것(실패의 경우 throw를 통해 나가게됨)
+		psmt.execute();
+    psmt.close();
 		return true;		
 	}
 	public int checkValid(String uid) throws SQLException, ClassNotFoundException//-1은 null 1은 client, 0은 emp
@@ -165,6 +168,21 @@ public class userDAO
 			return -1;
 		boolean result = rs.getBoolean("is_client");
 		return result == true ? 1 : 0;
+	}
+	
+	public static boolean checkEmpValid(String uid) throws SQLException, ClassNotFoundException {
+		Connection con = DBConnection.getConnection();
+		PreparedStatement psmt;
+		ResultSet rs;
+		String sql = "select * from user where user_id = ? ;";
+		psmt = con.prepareStatement(sql);
+		psmt.setString(1, uid);
+		psmt.execute();
+		rs = psmt.getResultSet();
+		if(!rs.next())
+			return false;
+		
+		return !rs.getBoolean("is_client");
 	}
 	
 	private java.sql.Date convertDate(String d) {
