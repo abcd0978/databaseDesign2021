@@ -100,22 +100,30 @@ public class userDAO
 			
 	}
 	//개인정보 관리
-	public boolean update(String name, String address, String birth, String email, String phone,String job) throws SQLException, ClassNotFoundException
+	public boolean update(String name, String address, String birth, String email, String phone,String job,String user_id) throws SQLException, ClassNotFoundException
 	{
 		Connection con = DBConnection.getConnection();
 		PreparedStatement psmt;
 		ResultSet rs;
-		String sql = "update user set name = ? , address = ? , birth = ? , email = ? , phone = ? , job = ?;";
-		psmt = con.prepareStatement(sql);
-		psmt.setString(1,name);
-		psmt.setString(2,address);
-		psmt.setString(3,birth);
-		psmt.setString(4,email);
-		psmt.setString(5,phone);
-		psmt.setString(6,job);
-		boolean result = psmt.execute();
-		psmt.close();
-		return result;
+		try {
+			String sql = "update user set name = ? , address = ? , birth = ? , email = ? , phone = ? , job = ? where user_id = ?;";
+			psmt = con.prepareStatement(sql);
+			psmt.setString(1,name);
+			psmt.setString(2,address);
+			psmt.setString(3,birth);
+			psmt.setString(4,email);
+			psmt.setString(5,phone);
+			psmt.setString(6,job);
+			psmt.setString(7,user_id);
+			psmt.execute();
+			psmt.close();
+		}
+		catch(SQLException e)
+		{
+			e.printStackTrace();
+			return false;
+		}
+		return true;
 	}
 	public boolean update(userDTO dto) throws SQLException, ClassNotFoundException
 	{
@@ -144,13 +152,13 @@ public class userDAO
 		psmt = con.prepareStatement(sql);
 		psmt.setString(1, user_id);
 		psmt.execute();
-		if(psmt.getResultSet()!=null)
+		if(psmt.getResultSet()==null)
 			return false;
 		String sql2 = "delete from user where user_id = ? ;";
 		psmt = con.prepareStatement(sql2);
 		psmt.setString(1, user_id);
-		boolean result = psmt.execute();
-		return result;		
+		psmt.execute();
+		return true;		
 	}
 	public int checkValid(String uid) throws SQLException, ClassNotFoundException//-1은 null 1은 client, 0은 emp
 	{
