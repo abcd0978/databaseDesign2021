@@ -1,17 +1,26 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"%>
 <%@ page import="java.sql.*"%>
 <%@ page import="util.DBConnection"%>
+<%@ page import="dao.*"%>
 
 <!DOCTYPE html>
 <html>
 <jsp:include page="/template/header.jsp"/>
 <body>
 <%
+	//session check
+	String user_id = (String) session.getAttribute("userID");
+	if(userDAO.checkEmpValid(user_id) == false) {
+		response.sendRedirect("/index.jsp");
+		return;
+	}
+
 	Connection conn = DBConnection.getConnection();
 	PreparedStatement pstmt = null;
 	ResultSet rs = null;
 	
-	String user_id = request.getParameter("user_id");
+	// 입력된 내용
+	user_id = request.getParameter("user_id");
 	String name = request.getParameter("name");
 	String address = request.getParameter("address");
 	String birth = request.getParameter("birth");
@@ -44,7 +53,7 @@
 			<button 
 				type="button" 
 				class="col btn btn-primary" 
-				onClick="location.href='/DatabaseDesign/emp/'"
+				onClick="location.href='/emp/'"
 				style="text-align:center"
 			>
 				메인페이지

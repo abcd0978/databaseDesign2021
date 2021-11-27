@@ -6,13 +6,10 @@
 <jsp:include page="/template/header.jsp"/>
 <body>
 <%
-	//임시 session 설정
-	session.setAttribute("userID","901111-1111111");
-	
-	// session check
+	//session check
 	String user_id = (String) session.getAttribute("userID");
 	if(userDAO.checkEmpValid(user_id) == false) {
-		response.sendRedirect("http://localhost:8080/DatabaseDesign/login.jsp");
+		response.sendRedirect("/index.jsp");
 		return;
 	}
 %>	
@@ -46,7 +43,7 @@
 				</div>
 			</div>
 			<div>
-				<button type="button" class="btn btn-primary"  onClick="location.href='/DatabaseDesign/emp/'">메인페이지</button>
+				<button type="button" class="btn btn-primary"  onClick="location.href='/emp/'">메인페이지</button>
 				<input type="submit" class="btn btn-primary" value="생성">
 			</div>
 		</form>

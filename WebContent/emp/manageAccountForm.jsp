@@ -8,13 +8,10 @@
 <jsp:include page="/template/header.jsp"/>
 <body>
 <%
-	//임시 session 설정
-	session.setAttribute("userID","901111-1111111");
-	
 	// session check
 	String user_id = (String) session.getAttribute("userID");
 	if(userDAO.checkEmpValid(user_id) == false) {
-		response.sendRedirect("http://localhost:8080/DatabaseDesign/login.jsp");
+		response.sendRedirect("http://localhost:8080/index.jsp");
 		return;
 	}
 %>	
@@ -52,7 +49,7 @@
 			<button 
 				type="button" 
 				class="col btn btn-primary"
-				onClick="location.href='/DatabaseDesign/emp/'"
+				onClick="location.href='/emp/'"
 				style="text-align:center"
 			>
 				메인 페이지
@@ -136,7 +133,7 @@
 		<form method="delete" action="manageAccount.jsp">
 			<input type="hidden" name="manage_type" value="delete">
 			<input type="hidden" name="account_id" value="<%=account_id%>">
-			<button type="button" class="btn btn-primary"  onClick="location.href='/DatabaseDesign/emp/'">메인페이지</button>
+			<button type="button" class="btn btn-primary"  onClick="location.href='/emp/'">메인페이지</button>
 <%
 		if(!is_request) {		
 %>

@@ -7,14 +7,11 @@
 <html>
 <jsp:include page="/template/header.jsp"/>
 <body>	
-<%
-	// 임시 session 설정
-	session.setAttribute("userID","901111-1111111");
-	
+<%	
 	// session check
 	String user_id = (String) session.getAttribute("userID");
 	if(userDAO.checkEmpValid(user_id) == false) {
-		response.sendRedirect("http://localhost:8080/DatabaseDesign/login.jsp");
+		response.sendRedirect("/index.jsp");
 		return;
 	}
 	
@@ -57,12 +54,12 @@
 			<h4 class="col"><%=phone%></h4>
 		</div>
 		<div>
-			<button type="button" class="btn btn-primary" onClick="location.href='/DatabaseDesign/emp/createAccountForm.jsp'">계좌 생성</button>
+			<button type="button" class="btn btn-primary" onClick="location.href='/emp/createAccountForm.jsp'">계좌 생성</button>
 			<button type="button" class="btn btn-primary" onClick="manageAccount()">계좌 관리</button>
-			<button type="button" class="btn btn-primary" onClick="location.href='/DatabaseDesign/emp/createCardForm.jsp'">카드 생성</button>
+			<button type="button" class="btn btn-primary" onClick="location.href='/emp/createCardForm.jsp'">카드 생성</button>
 			<button type="button" class="btn btn-primary" onClick="manageCard()">카드 관리</button>
-			<button type="button" class="btn btn-primary" onClick="location.href='/DatabaseDesign/emp/manageUserForm.jsp'">개인정보관리</button>
-			<form method="get" action="/DatabaseDesign/logout">
+			<button type="button" class="btn btn-primary" onClick="location.href='/emp/manageUserForm.jsp'">개인정보관리</button>
+			<form method="get" action="/logout">
 				<input type="submit" class="btn btn-danger" value="로그아웃">
 			</form>
 		</div>
@@ -77,7 +74,7 @@
 		}
 		
 		if(card_id != null) {
-			let url = "/DatabaseDesign/emp/manageCardForm.jsp?card_id="+card_id
+			let url = "/emp/manageCardForm.jsp?card_id="+card_id
 			location.href= url
 		}
 	}
@@ -90,7 +87,7 @@
 		}
 		
 		if(account_id != null) {
-			let url = "/DatabaseDesign/emp/manageAccountForm.jsp?account_id="+account_id
+			let url = "/emp/manageAccountForm.jsp?account_id="+account_id
 			location.href= url
 		}
 	}

@@ -2,11 +2,20 @@
 <%@ page import="java.sql.*"%>
 <%@ page import="java.time.*"%>
 <%@ page import="util.DBConnection"%>
+<%@ page import="dao.*"%>
 
 <!DOCTYPE html>
 <html>
 <jsp:include page="/template/header.jsp"/>
 <body>
+<%	
+	// session check
+	String user_id = (String) session.getAttribute("userID");
+	if(userDAO.checkEmpValid(user_id) == false) {
+		response.sendRedirect("/index.jsp");
+		return;
+	}
+%>	
 	<div class="container">
 		<h1>명지은행</h1>
 		<div class="row">
@@ -17,13 +26,13 @@
 	PreparedStatement pstmt = null;
 	ResultSet rs = null;
 	
-	String user_id = request.getParameter("user_id");
+	String accountOwnerId = request.getParameter("user_id");
 	int type = Integer.parseInt(request.getParameter("type"));
 	
 	// 사용자가 있는지 확인
 	String validQuery = "select count(*) from user where user_id=?";
 	pstmt = conn.prepareStatement(validQuery);
-	pstmt.setString(1, user_id);
+	pstmt.setString(1, accountOwnerId);
 	rs = pstmt.executeQuery();
 
 	boolean isExist = true;
@@ -48,7 +57,7 @@
 			<button 
 				type="button" 
 				class="col btn btn-primary"
-				onClick="location.href='/DatabaseDesign/emp/'"
+				onClick="location.href='/emp/'"
 				style="text-align:center"
 			>
 				메인페이지
@@ -67,7 +76,7 @@
 		pstmt.setInt(2, balance);
 		pstmt.setBoolean(3, is_request);
 		pstmt.setTimestamp(4, open_date);
-		pstmt.setString(5, user_id);
+		pstmt.setString(5, accountOwnerId);
 		pstmt.executeUpdate();
 %>
 		<div class="row">
@@ -80,7 +89,7 @@
 			<button 
 				type="button" 
 				class="col btn btn-primary"
-				onClick="location.href='/DatabaseDesign/emp/'"
+				onClick="location.href='/emp/'"
 				style="text-align:center"
 			>
 				메인페이지

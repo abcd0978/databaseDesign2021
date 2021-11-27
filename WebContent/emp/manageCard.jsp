@@ -1,17 +1,25 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"%>
 <%@ page import="java.sql.*"%>
 <%@ page import="util.DBConnection"%>
+<%@ page import="dao.*"%>
 
 <!DOCTYPE html>
 <html>
 <jsp:include page="/template/header.jsp"/>
 <body>
+<%
+	// session check
+	String user_id = (String) session.getAttribute("userID");
+	if(userDAO.checkEmpValid(user_id) == false) {
+		response.sendRedirect("/index.jsp");
+		return;
+	}
+%>	
 	<div class="container">
 		<h1>명지은행</h1>
 		<div class="row">
 			<h2 class="col">카드 관리</h2>
 		</div>
-		
 <% 
 	Connection conn = DBConnection.getConnection();
 	PreparedStatement pstmt = null;
@@ -50,7 +58,7 @@
 			<button 
 				type="button" 
 				class="col btn btn-primary"
-				onClick="location.href='/DatabaseDesign/emp'"
+				onClick="location.href='/emp'"
 				style="text-align:center"
 			>
 				메인 페이지
@@ -79,7 +87,6 @@
 		rs.next();
 		
 		if(rs.getInt(1) == 0) {
-			System.out.println(rs.getInt(1));
 			String updateQuery = "update account set is_request = ? where account_id = ?";
 			pstmt = conn.prepareStatement(updateQuery);
 			pstmt.setBoolean(1, false);
@@ -97,7 +104,7 @@
 			<button 
 				type="button" 
 				class="col btn btn-primary"
-				onClick="location.href='/DatabaseDesign/emp'"
+				onClick="location.href='/emp'"
 				style="text-align:center"
 			>
 				메인 페이지
@@ -129,10 +136,10 @@
 			<button 
 				type="button" 
 				class="col btn btn-primary"
-				onClick="location.href='/DatabaseDesign/emp/manageCardForm.jsp?card_id=<%=card_id%>'"
+				onClick="location.href='/emp/manageCardForm.jsp?card_id=<%=card_id%>'"
 				style="text-align:center"
 			>
-				계좌 관리 페이지
+				카드 관리 페이지
 			</button>
 			<h2 class="col"></h2>
 		</div>
@@ -180,7 +187,7 @@
 			<button 
 				type="button" 
 				class="col btn btn-primary"
-				onClick="location.href='/DatabaseDesign/emp'"
+				onClick="location.href='/emp'"
 				style="text-align:center"
 			>
 				메인 페이지

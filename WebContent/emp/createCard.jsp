@@ -2,11 +2,20 @@
 <%@ page import="java.sql.*"%>
 <%@ page import="java.time.*"%>
 <%@ page import="util.DBConnection"%>
+<%@ page import="dao.*"%>
 
 <!DOCTYPE html>
 <html>
 <jsp:include page="/template/header.jsp"/>
 <body>
+<%
+	//session check
+	String user_id = (String) session.getAttribute("userID");
+	if(userDAO.checkEmpValid(user_id) == false) {
+		response.sendRedirect("/index.jsp");
+		return;
+	}
+%>	
 	<div class="container">
 		<h1>명지은행</h1>
 		<div class="row">
@@ -52,7 +61,7 @@
 			<button 
 				type="button" 
 				class="col btn btn-primary"
-				onClick="location.href='/DatabaseDesign/emp/createCardForm.jsp'"
+				onClick="location.href='/emp/createCardForm.jsp'"
 				style="text-align:center"
 			>
 				카드 생성 페이지
@@ -85,7 +94,7 @@
 			<button 
 				type="button" 
 				class="col btn btn-primary"
-				onClick="location.href='/DatabaseDesign/emp/'"
+				onClick="location.href='/emp/'"
 				style="text-align:center"
 			>
 				메인페이지

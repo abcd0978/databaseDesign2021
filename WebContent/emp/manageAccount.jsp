@@ -1,11 +1,20 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"%>
 <%@ page import="java.sql.*"%>
 <%@ page import="util.DBConnection"%>
+<%@ page import="dao.*"%>
 
 <!DOCTYPE html>
 <html>
 <jsp:include page="/template/header.jsp"/>
 <body>
+<%
+	// session check
+	String user_id = (String) session.getAttribute("userID");
+	if(userDAO.checkEmpValid(user_id) == false) {
+		response.sendRedirect("http://localhost:8080/index.jsp");
+		return;
+	}
+%>	
 	<div class="container">
 		<h1>명지은행</h1>
 		<div class="row">
@@ -40,7 +49,7 @@
 			<button 
 				type="button" 
 				class="col btn btn-primary"
-				onClick="location.href='/DatabaseDesign/emp'"
+				onClick="location.href='/emp'"
 				style="text-align:center"
 			>
 				메인 페이지
@@ -71,7 +80,7 @@
 			<button 
 				type="button" 
 				class="col btn btn-primary"
-				onClick="location.href='/DatabaseDesign/emp'"
+				onClick="location.href='/emp'"
 				style="text-align:center"
 			>
 				메인 페이지
