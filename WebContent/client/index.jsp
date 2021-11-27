@@ -24,7 +24,7 @@
 		user = udao.select(uid);
 		info_name = user.getName();
 		info_add = user.getAddress();
-		info_birth = user.getBirth().toString();
+		info_birth = user.getBirth();
 		info_email = user.getEmail();
 		info_num = user.getPhone();
 		info_job = user.getJob();
