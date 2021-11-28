@@ -130,7 +130,7 @@ public class userDAO
 		psmt.setString(5,dto.getPhone());
 		psmt.setString(6,dto.getJob());
 		psmt.setString(7, dto.getUser_id());
-    psmt.execute();
+		psmt.execute();
 		psmt.close();
 		//여기에 도달했다면 성공했다는것(실패의 경우 throw를 통해 나가게됨)
 		return true;
@@ -151,7 +151,7 @@ public class userDAO
 		psmt.setString(1, user_id);
 		//여기에 도달했다면 성공했다는것(실패의 경우 throw를 통해 나가게됨)
 		psmt.execute();
-    psmt.close();
+		psmt.close();
 		return true;		
 	}
 	public int checkValid(String uid) throws SQLException, ClassNotFoundException//-1은 null 1은 client, 0은 emp
