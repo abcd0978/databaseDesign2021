@@ -15,7 +15,7 @@
 	userDTO user = udao.select(uid);
 	String name = "";
 	if (udao.checkValid(uid) < 1)
-		response.sendRedirect("/DatabaseDesign/login.jsp");
+		response.sendRedirect("/login.jsp");
 	else
 		name = user.getName();
 %>
@@ -33,7 +33,7 @@
 <body>
 	<!-- 계좌 리스트 -->
 	<h1>
-		<a href="/DatabaseDesign/client/index.jsp">명지은행</a>
+		<a href="/client/index.jsp">명지은행</a>
 	</h1>
 	<div id="who"><%=name%>님의 계좌 리스트
 	</div>
@@ -46,7 +46,7 @@
 				accountDTO temp = accounts.get(i);
 				out.print("<tr>");
 				out.print(
-						"<td> <button id=\"goaccount\" type=\"button\" class=\"btn btn-primary\" onclick=\"location.href=\'http://localhost:8090/DatabaseDesign/client/account.jsp?id="
+						"<td> <button id=\"goaccount\" type=\"button\" class=\"btn btn-primary\" onclick=\"location.href=\'/client/account.jsp?id="
 								+ temp.getAccount_id() + "\'\">보기</button> </td>");
 				out.print("<td>" + temp.getAccount_id() + "</td>");
 				out.print("<td>" + temp.getBalance() + "</td>");

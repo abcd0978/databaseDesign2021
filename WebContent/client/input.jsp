@@ -16,7 +16,7 @@
 	ArrayList<accountDTO> accounts=null;
 	
 	if(udao.checkValid(uid)<1)
-		response.sendRedirect("/DatabaseDesign/login.jsp");
+		response.sendRedirect("/login.jsp");
 	else
 	{
 		accounts = adao.selectAccounts(uid);
@@ -32,9 +32,9 @@
 </head>
 <body>
 	<!-- 카드 상세 조회 -->
-	<h1><a href = "/DatabaseDesign/client/index.jsp">명지은행</a></h1>
+	<h1><a href = "/client/index.jsp">명지은행</a></h1>
 	<div>입금</div>
-	<form method="post" action="/DatabaseDesign/deposit">
+	<form method="post" action="/deposit">
 	<%
 	out.print(" <select name=\"account_id\"> ");
 		out.print("<option value=\"\">계좌선택</option>");

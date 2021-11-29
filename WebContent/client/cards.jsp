@@ -15,7 +15,7 @@
 	userDTO user;
 	String name="";
 	if(udao.checkValid(uid)<1)
-		response.sendRedirect("/DatabaseDesign/login.jsp");
+		response.sendRedirect("/login.jsp");
 	else
 	{
 		user = udao.select(uid);
@@ -33,7 +33,7 @@
 </head>
 <body>
 	<!-- 카드 목록 -->
-	<h1><a href = "/DatabaseDesign/client/index.jsp">명지은행</a></h1>
+	<h1><a href = "/client/index.jsp">명지은행</a></h1>
 	<div id = "who"><%=name%>님의 카드 리스트</div>
 	<table  class="table table-hover">
 		<th>상세보기</th>
@@ -44,7 +44,7 @@
 		{
 			cardDTO temp = cards.get(i);
 			out.print("<tr>");
-			out.print("<td> <button id=\"goaccount\" type=\"button\" class=\"btn btn-primary\" onclick=\"location.href=\'http://localhost:8090/DatabaseDesign/client/card.jsp?card_id="+temp.getCard_id()+"\'\">"+temp.getCard_id()+"번 카드 보기</button> </td>");                                                                    
+			out.print("<td> <button id=\"goaccount\" type=\"button\" class=\"btn btn-primary\" onclick=\"location.href=\'/client/card.jsp?card_id="+temp.getCard_id()+"\'\">"+temp.getCard_id()+"번 카드 보기</button> </td>");                                                                    
 			out.print("<td>"+temp.getType()+"</td>");
 			out.print("<td>"+temp.getAccount_id()+"</td>");
 			out.print("</tr>");

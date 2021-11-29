@@ -7,7 +7,7 @@
 <%
 	request.setCharacterEncoding("UTF-8");
 	//session.invalidate();
-	session.setAttribute("userID", "901122-2222222");//디버그용
+	//session.setAttribute("userID", "901122-2222222");//디버그용
 	String uid = (String) session.getAttribute("userID");
 	userDAO udao = new userDAO();
 	userDTO user = null;
@@ -19,7 +19,7 @@
 	String info_num = "";
 	String info_job = "";
 	if (udao.checkValid(uid) < 1)
-		response.sendRedirect("/DatabaseDesign/login.jsp");
+		response.sendRedirect("/login.jsp");
 	else {
 		user = udao.select(uid);
 		info_name = user.getName();
@@ -71,28 +71,28 @@
 	</div>
 	<div id="buttons">
 		<button id="cl_account" type="button" class="btn btn-primary"
-			onclick="location.href='/DatabaseDesign/client/accounts.jsp'">
+			onclick="location.href='/client/accounts.jsp'">
 			계좌조회</button>
 		<button id="cl_send" type="button" class="btn btn-primary"
-			onclick="location.href='/DatabaseDesign/client/send.jsp'">
+			onclick="location.href='/client/send.jsp'">
 			송금</button>
 		<button id="cl_depo" type="button" class="btn btn-primary"
-			onclick="location.href='/DatabaseDesign/client/input.jsp'">
+			onclick="location.href='/client/input.jsp'">
 			입금</button>
 		<button id="cl_witd" type="button" class="btn btn-primary"
-			onclick="location.href='/DatabaseDesign/client/output.jsp'">
+			onclick="location.href='/client/output.jsp'">
 			출금</button>
 		<button id="cl_card" type="button" class="btn btn-primary"
-			onclick="location.href='/DatabaseDesign/client/cards.jsp'">
+			onclick="location.href='/client/cards.jsp'">
 			카드조회</button>
 		<button id="cl_uscard" type="button" class="btn btn-primary"
-			onclick="location.href='/DatabaseDesign/client/cardUsage.jsp'">
+			onclick="location.href='/client/cardUsage.jsp'">
 			카드사용</button>
 		<button id="cl_pinfo" type="button" class="btn btn-primary"
-			onclick="location.href='/DatabaseDesign/client/manageUser.jsp'">
+			onclick="location.href='/client/manageUser.jsp'">
 			개인정보관리</button>
 		<button id="cl_pinfo" type="button" class="btn btn-danger"
-		onclick="location.href='/DatabaseDesign/index.jsp'">
+		onclick="location.href='/index.jsp'">
 		로그아웃</button>
 	</div>
 </body>

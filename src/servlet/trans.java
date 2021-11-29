@@ -40,7 +40,7 @@ public class trans extends HttpServlet {
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
-		request.setCharacterEncoding("euc-kr");
+		request.setCharacterEncoding("utf-8");
 		int result=0;
 		cardDAO cdao = new cardDAO();
 		String id = request.getParameter("card_id");
@@ -49,7 +49,7 @@ public class trans extends HttpServlet {
 		System.out.println(id+" "+amount+" "+info);
 		try {
 			result = cdao.useCard(Integer.parseInt(id),Integer.parseInt(amount), info);
-		} catch (NumberFormatException | ClassNotFoundException | SQLException e) {
+		}  catch (NumberFormatException | ClassNotFoundException | SQLException e) {
 			e.printStackTrace();
 		}
 		response.setCharacterEncoding("utf-8");
@@ -59,21 +59,21 @@ public class trans extends HttpServlet {
 		{
 			out.print("<html>");
 			out.print("카드가 존재하지 않습니다.");
-			out.print("<br> <a href=\"/DatabaseDesign/client/cardUsage.jsp\">뒤로가기</a>");
+			out.print("<br> <a href=\"/client/cardUsage.jsp\">뒤로가기</a>");
 			out.println("</html>");
 		}
 		else if(result==-2)
 		{
 			out.print("<html>");
 			out.print("잔고부족입니다.");
-			out.print("<br> <a href=\"/DatabaseDesign/client/cardUsage.jsp\">뒤로가기</a>");
+			out.print("<br> <a href=\"/client/cardUsage.jsp\">뒤로가기</a>");
 			out.println("</html>");
 		}
 		else if(result==-3)
 		{
 			out.print("<html>");
 			out.print("한도 초과입니다.");
-			out.print("<br> <a href=\"/DatabaseDesign/client/cardUsage.jsp\">뒤로가기</a>");
+			out.print("<br> <a href=\"/client/cardUsage.jsp\">뒤로가기</a>");
 			out.println("</html>");
 		}
 		//오류:-1, 잔고부족:-2, 한도초과:-3 성공:1
@@ -82,7 +82,7 @@ public class trans extends HttpServlet {
 			out.print("<html>");
 			out.print("<body>");
 			out.print(id+"번 카드에서 "+amount+"원을 사용하였습니다.");
-			out.print("<br> <a href=\"/DatabaseDesign/client/cardUsage.jsp\">뒤로가기</a>");
+			out.print("<br> <a href=\"/client/cardUsage.jsp\">뒤로가기</a>");
 			out.print("</body>");
 			out.println("</html>");
 		}

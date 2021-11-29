@@ -56,14 +56,14 @@ public class deposit extends HttpServlet {
 		{
 			out.print("<html>");
 			out.print("DB 오류입니다");
-			out.print("<br> <a href=\"/DatabaseDesign/client/input.jsp\">뒤로가기</a>");
+			out.print("<br> <a href=\"/client/input.jsp\">뒤로가기</a>");
 			out.println("</html>");
 		}
 		else if(result==-2)
 		{
 			out.print("<html>");
 			out.print("존재하지 않는 계죄입니다.");
-			out.print("<br> <a href=\"/DatabaseDesign/client/input.jsp\">뒤로가기</a>");
+			out.print("<br> <a href=\"/client/input.jsp\">뒤로가기</a>");
 			out.println("</html>");
 		}
 		/*
@@ -80,7 +80,7 @@ public class deposit extends HttpServlet {
 			out.print("<html>");
 			out.print("<body>");
 			out.print(id+" 계좌에서 "+amount+"원을 입금하였습니다.");
-			out.print("<br> <a href=\"/DatabaseDesign/client/input.jsp\">뒤로가기</a>");
+			out.print("<br> <a href=\"/client/input.jsp\">뒤로가기</a>");
 			out.print("</body>");
 			out.println("</html>");
 		}

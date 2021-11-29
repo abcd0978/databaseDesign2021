@@ -46,14 +46,14 @@ public class cardDAO
 				psmt.execute();
 				System.out.println("account업데아트ok");
 				String sql3 ="insert into account_log(date,amount,type,info,account_id)"+
-				" values(now(), ?, 0, ? , ? );";
+				" values(now() + interval 9 hour, ?, 0, ? , ? );";
 				psmt = con.prepareStatement(sql3);
 				psmt.setInt(1, amount);
 				psmt.setString(2, info);
 				psmt.setInt(3, accountId);
 				psmt.execute();
 				System.out.println("account_log업데아트ok");
-				String sql4 = "insert into card_log(user_id,card_id,payment_date,amount) values( ?, ?, now(), ?);";
+				String sql4 = "insert into card_log(user_id,card_id,payment_date,amount) values( ?, ?, now() + interval 9 hour, ?);";
 				psmt = con.prepareStatement(sql4);
 				psmt.setString(1, userId);
 				psmt.setInt(2, card_id);

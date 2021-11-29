@@ -104,7 +104,7 @@ public class userDAO
 		Connection con = DBConnection.getConnection();
 		PreparedStatement psmt;
 		ResultSet rs;
-		String sql = "update user set name = ? , address = ? , birth = ? , email = ? , phone = ? , job = ?;";
+		String sql = "update user set name = ? , address = ? , birth = ? , email = ? , phone = ? , job = ? where user_id = ? ;";
 		psmt = con.prepareStatement(sql);
 		psmt.setString(1,name);
 		psmt.setString(2,address);
@@ -112,6 +112,7 @@ public class userDAO
 		psmt.setString(4,email);
 		psmt.setString(5,phone);
 		psmt.setString(6,job);
+		psmt.setString(7,user_id);
 		psmt.execute();
 		psmt.close();
 		return true;

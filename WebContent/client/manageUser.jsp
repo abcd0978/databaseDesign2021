@@ -13,12 +13,11 @@
 	userDAO udao = new userDAO();
 	userDTO user=null;
 	if(udao.checkValid(uid)<1)
-		response.sendRedirect("/DatabaseDesign/login.jsp");
+		response.sendRedirect("/login.jsp");
 	else
 	{
 		user = udao.select(uid);
 	}
-		
 %>
 <!DOCTYPE html>
 <html>
@@ -29,9 +28,9 @@
 </head>
 
 <body>
-<h1><a href = "/DatabaseDesign/client/index.jsp">명지은행</a></h1>
+<h1><a href = "/client/index.jsp">명지은행</a></h1>
 	<div>개인정보 관리</div>
-	<form method="post" action="/DatabaseDesign/manage">
+	<form method="post" action="/manage">
 		이름: <input type="text" name="name" value="<%=user.getName()%>"> <br>
 		주소: <input type="text" name="address" value="<%=user.getAddress()%>"> <br>
 		생일: <input type="text" name="birth" value="<%=user.getBirth().toString()%>"> <br>

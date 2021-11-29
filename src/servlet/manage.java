@@ -64,14 +64,14 @@ public class manage extends HttpServlet {
 		{
 			out.print("<html>");
 			out.print("개인정보를 저장했습니다.");
-			out.print("<br> <a href=\"/DatabaseDesign/client/manageUser.jsp\">뒤로가기</a>");
+			out.print("<br> <a href=\"/client/manageUser.jsp\">뒤로가기</a>");
 			out.println("</html>");
 		}
 		else
 		{
 			out.print("<html>");
 			out.print("실패하였습니다.");
-			out.print("<br> <a href=\"/DatabaseDesign/client/manageUser.jsp\">뒤로가기</a>");
+			out.print("<br> <a href=\"/client/manageUser.jsp\">뒤로가기</a>");
 			out.println("</html>");
 		}
 	}

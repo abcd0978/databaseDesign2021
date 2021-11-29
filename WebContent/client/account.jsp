@@ -7,7 +7,7 @@
 	request.setCharacterEncoding("UTF-8");
 	int acId = Integer.parseInt(request.getParameter("id"));
 	
-	session.setAttribute("userID", "901122-2222222");//디버그용
+	//session.setAttribute("userID", "901122-2222222");//디버그용
 	//session.invalidate();
 	String uid = (String)session.getAttribute("userID");
 	userDAO udao = new userDAO();
@@ -15,7 +15,7 @@
 	accountDTO account=null;
 	ArrayList<accountLogDTO> accountLogs=null;
 	if(udao.checkValid(uid)<1)
-		response.sendRedirect("/DatabaseDesign/login.jsp");
+		response.sendRedirect("/login.jsp");
 	else
 	{
 		account = adao.selectAccount(acId);
@@ -31,7 +31,7 @@
 </head>
 <body>
 	<!-- 계좌 상세 조회  -->
-	<h1><a href = "/DatabaseDesign/client/index.jsp">명지은행</a></h1>
+	<h1><a href = "/client/index.jsp">명지은행</a></h1>
 	<div>계좌 상세조회</div>
 	<table class="table table-hover">
 		<th>계좌번호</th>

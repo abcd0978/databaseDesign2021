@@ -16,7 +16,7 @@
 	ArrayList<accountDTO> accounts=null;
 	
 	if(udao.checkValid(uid)<1)
-		response.sendRedirect("/DatabaseDesign/login.jsp");
+		response.sendRedirect("/login.jsp");
 	else
 	{
 		accounts = adao.selectAccounts(uid);
@@ -31,9 +31,9 @@
 	<title>Bank System</title>
 </head>
 <body>
-	<h1><a href = "/DatabaseDesign/client/index.jsp">명지은행</a></h1>
+	<h1><a href = "/client/index.jsp">명지은행</a></h1>
 	<div>송금</div>
-	<form method="post" action="/DatabaseDesign/send">
+	<form method="post" action="/send">
 	<%
 	out.print("계좌번호");
 	out.print(" <select name=\"sender_account_id\"> ");
@@ -42,10 +42,14 @@
 		out.print("<option value=\""  +accounts.get(i).getAccount_id()+"\">"+accounts.get(i).getAccount_id()+"</option>");
 	out.print("</select>");
 	%>
+	<br>
 		받는분 계좌번호: <input type="text" name="receiver_account_id">
+		<br>
 		금액: <input type="text" name="amount">
+		<br>
 		메세지: <input type="text" name="info">
-		<button type="submit">제출</button>
+		<br>
+		<button type="submit" class="btn btn-primary">제출</button>
 	</form>
 </body>
 <script type="text/javascript">
