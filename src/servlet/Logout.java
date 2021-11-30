@@ -8,6 +8,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import javax.servlet.http.Cookie;
 
 @WebServlet("/logout")
 public class Logout extends HttpServlet {
@@ -17,6 +18,13 @@ public class Logout extends HttpServlet {
 		HttpSession session = request.getSession();
 		if(session.getAttribute("userID") != null) {
 			session.removeAttribute("userID");
+			Cookie[] cookies=request.getCookies();
+			if(cookies!=null) {
+				for(Cookies cookie:cookies) {
+					cookie.setMaxAge(0);
+					response.addCookie(cookie);
+				}
+			}
 		}
 		response.sendRedirect("/index.jsp");
 	}
