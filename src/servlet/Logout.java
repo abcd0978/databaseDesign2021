@@ -20,7 +20,7 @@ public class Logout extends HttpServlet {
 			session.removeAttribute("userID");
 			Cookie[] cookies=request.getCookies();
 			if(cookies!=null) {
-				for(Cookies cookie:cookies) {
+				for(Cookie cookie:cookies) {
 					cookie.setMaxAge(0);
 					response.addCookie(cookie);
 				}
